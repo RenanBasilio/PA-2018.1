@@ -1,0 +1,90 @@
+* {
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+    padding:0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: "Lato", sans-serif; 
+    font-size: 16pt;
+    background-color:#efefef;
+}
+
+#idHeader{
+    height:35px;
+    background-color:black;
+}
+#idNomeSite{
+    width:200px;
+    text-align:center;
+    float:left;
+    color:red;
+}
+#idDELPOLI{
+    width:300px;
+    text-align:center;
+    float:right;
+    color:white;
+}
+#idlista{
+    height:4px;
+    background-color:red;
+}
+#idDiv1{
+    margin-top:20px;
+    margin-bottom: 0;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+    color: dodgerblue;
+    font-weight:bold;
+    height:auto;
+}
+#idDivLocal{
+    text-align:center;
+    font-weight:bold;
+    color: dodgerblue;
+}
+#idDivDatahora{
+    text-align:center;
+    font-weight:bold;
+    color: dodgerblue;
+}
+#idDivMedAutom{
+    float:left;
+    margin-left:auto;
+}
+#idDivObserv{
+    float:left;
+}
+#idDivFotos{
+    clear:left;
+    float:left;
+    margin-left:auto;
+}
+#idDivGraficos{
+    float:left;
+}
+.shadowBorder{
+    padding:15px;
+    margin:10px;
+    border:1px solid lightgray;
+    box-shadow: 3px 5px 10px #888888;
+    background-color:white;
+    height:350px;
+    width:48%;
+}
+.classTexto1{
+    color:black;
+    font-weight:normal;
+}
+.meia-caixa{
+    width:48%;
+}
+.caixa-inteira{
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
