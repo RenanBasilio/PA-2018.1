@@ -13,23 +13,25 @@ body{
 
 #idHeader{
     height:35px;
-    background-color:black;
+    background-color:white;
 }
 #idNomeSite{
     width:200px;
     text-align:center;
     float:left;
-    color:red;
+    color: blue;
+    margin-top: 5px;
 }
 #idDELPOLI{
     width:300px;
     text-align:center;
     float:right;
-    color:white;
+    color:black;
+    margin-top: 5px;
 }
 #idlista{
     height:4px;
-    background-color:red;
+    background-color:dodgerblue;
 }
 #idDiv1{
     margin-top:20px;
@@ -50,9 +52,9 @@ body{
     line-height: 0.75;
     margin: auto;
     margin-top: 10px;
-    border-radius: 5px;
-    background-color: whitesmoke;
-    opacity: 0.85;
+    border-radius: 2px;
+    background-color: white;
+    opacity: 0.9;
 }
 #idDivDatahora{
     text-align:center;
@@ -64,9 +66,9 @@ body{
     margin: auto;
     margin-top: 10px;
     margin-bottom: 50px;
-    border-radius: 5px;
-    background-color: whitesmoke;
-    opacity: 0.85;
+    border-radius: 2px;
+    background-color: white;
+    opacity: 0.9;
 }
 #idDivMedAutom{
     float:left;
