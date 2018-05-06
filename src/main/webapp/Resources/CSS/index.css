@@ -45,11 +45,28 @@ body{
     text-align:center;
     font-weight:bold;
     color: dodgerblue;
+    width: 35%;
+    height: 40px;
+    line-height: 0.75;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    opacity: 0.85;
 }
 #idDivDatahora{
     text-align:center;
     font-weight:bold;
     color: dodgerblue;
+    width: 35%;
+    height: 60px;
+    line-height: 0.75;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    opacity: 0.85;
 }
 #idDivMedAutom{
     float:left;

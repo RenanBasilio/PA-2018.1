@@ -23,7 +23,7 @@
 
     </head>
     
-    <body>
+    <body background="<%= contexto%>/Resources/Images/praia.jpg">
         <div id="idHeader">
             <div id="idNomeSite">TempoClimaNET</div>
             <div id="idDELPOLI">EEL418 / DEL / POLI / UFRJ</div>
@@ -66,7 +66,7 @@
                 <button type="submit" style="font-size:1.05em;">BUSCAR</button>
             </form>
             <br>
-            <form method="GET" action="consulta">
+            <form method="GET" action="consulta" style="margin-top:10px;">
                 <input type="hidden" name="datamed" value="${MEDICAO.datahoraautom}"/>
                 <input type="hidden" name="dataobs" value="${OBSERVACAO.datahoraobs}"/>
                 <button type="submit" name="q" value="prev"
@@ -79,7 +79,8 @@
         <div id="idDiv1">
             
             <div id="idDivMedAutom" class="shadowBorder">
-                MEDIDAS AUTOMÁTICAS<br>
+                MEDIDAS AUTOMÁTICAS
+                <br>
                 <br>
                 Data-hora: <span id="datahoraautom" class="classTexto1">${MEDICAO.datahoraautom}</span><br>
                 Temperatura: <span id="temperatura" class="classTexto1">${MEDICAO.temperatura} ºC</span><br>
@@ -110,7 +111,7 @@
             
             <div id="idDivFotos" class="shadowBorder">
                 FOTOS<br>
-                <img class="meia-caixa" src="<%= contexto%>/Resources/Images/praia.jpg"/>
+                <img class="meia-caixa" src="<%= contexto%>/Resources/Images/praia.jpg" border="0">
                 <img class="meia-caixa" src="<%= contexto%>/Resources/Images/radar.png"/>
             </div>
             
