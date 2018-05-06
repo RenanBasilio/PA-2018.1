@@ -96,7 +96,11 @@
         <div id="idDiv1">
             
             <div id="idDivMedAutom" class="shadowBorder">
-                MEDIDAS AUTOMÁTICAS
+                <span style="line-height:0.9;">
+                    MEDIDAS AUTOMÁTICAS
+                    <br>
+                    <span class="classSubTexto">(igual ou anterior ao momento consulta)</span>
+                </span>
                 <br>
                 <br>
                 Data-hora: <span id="datahoraautom" class="classTexto1">${MEDICAO.datahoraautom}</span><br>
@@ -112,7 +116,12 @@
             </div>
             
             <div id="idDivObserv" class="shadowBorder">
-                OBSERVAÇÕES<br>
+                <span style="line-height:0.9;">
+                    OBSERVAÇÕES
+                    <br>
+                    <span class="classSubTexto">(igual ou anterior ao momento consulta)</span>
+                </span>
+                <br>
                 <br>
                 Data-hora: <span id="datahoraobs" class="classTexto1">${OBSERVACAO.datahoraobs}</span><br>
                 Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
