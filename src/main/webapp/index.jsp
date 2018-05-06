@@ -41,29 +41,37 @@
                 Data-hora: 
                 <input type="text" size="16" name="data" 
                        value=<% DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                                String dateStr = "";
                                 
-                                if (request.getParameter("data") == null) {
+                                if (request.getParameterMap().size() == 0) {
                                     Date date = new Date();
-                                    String dateStr = dateFormat.format(date);
+                                    dateStr = dateFormat.format(date);
                                     
                                     ModeloMedicao medidas = ModeloMedicao.fromDB(dateStr);
                                     ModeloObservacao observacoes = ModeloObservacao.fromDB(dateStr);
                                     request.setAttribute("MEDICAO", medidas);
                                     request.setAttribute("OBSERVACAO", observacoes);
                                     
-                                    out.println("\""+dateStr+"\"");
+                                }
+                                else if (request.getParameter("data") == null) {
+                                    Date date = new Date();
+                                    dateStr = dateFormat.format(date);
                                 }
                                 else {
-                                    out.println("\""+request.getParameter("data")+"\"");
+                                    dateStr = request.getParameter("data");
                                 }
-                                 %>
+                                out.println("\""+dateStr+"\"");
+                                %>
                        style="font-size:1.05em;text-align:center;"/>
                 <button type="submit" style="font-size:1.05em;">BUSCAR</button>
-                <br>
-                <br>
-                <button type="submit" value="previous"
+            </form>
+            <br>
+            <form method="GET" action="consulta">
+                <input type="hidden" name="datamed" value="${MEDICAO.datahoraautom}"/>
+                <input type="hidden" name="dataobs" value="${OBSERVACAO.datahoraobs}"/>
+                <button type="submit" name="q" value="prev"
                         style="font-size:1.05em;">Anterior <<</button>
-                <button type="submit" value="next"
+                <button type="submit" name="q" value="next"
                         style="font-size:1.05em;">>> Posterior</button>
             </form>
         </div>

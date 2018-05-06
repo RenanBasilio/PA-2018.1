@@ -10,13 +10,34 @@ public class IndexHandler implements IFHandler {
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) {
         String pagina = "index.jsp";
+        ModeloMedicao medicoes;
+        ModeloObservacao observacoes;
 
-        String data = request.getParameter("data");
-        ModeloMedicao medidas = ModeloMedicao.fromDB(data);
-        ModeloObservacao observacoes = ModeloObservacao.fromDB(data);
-
-        request.setAttribute("MEDICAO", medidas);
+        if (request.getParameter("data") != null) {
+            String data = request.getParameter("data");
+            medicoes = ModeloMedicao.fromDB(data);
+            observacoes = ModeloObservacao.fromDB(data);
+        }
+        else {
+            switch (request.getParameter("q")) {
+                case "next":
+                    observacoes = ModeloObservacao.nextFromDB(request.getParameter("dataobs"));
+                    medicoes = ModeloMedicao.nextFromDB(request.getParameter("datamed"));
+                    break;
+                case "prev":
+                    observacoes = ModeloObservacao.prevFromDB(request.getParameter("dataobs"));
+                    medicoes = ModeloMedicao.prevFromDB(request.getParameter("datamed"));
+                    break;
+                default:
+                    medicoes = new ModeloMedicao();
+                    observacoes = new ModeloObservacao();
+                    break;
+            }
+        }
+        
+        request.setAttribute("MEDICAO", medicoes);
         request.setAttribute("OBSERVACAO", observacoes);
+        
         return pagina;
     }
 }

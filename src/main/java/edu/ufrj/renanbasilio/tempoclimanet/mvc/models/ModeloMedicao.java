@@ -9,7 +9,7 @@ import java.util.*;
 
 public class ModeloMedicao {
 
-    private String datahoraautom = "";
+    private String datahoraautom = "00/00/00 00:00:00";
     private float temperatura = 0.0F;
     private float umidade = 0.0F;
     private float orvalho = 0.0F;
@@ -105,11 +105,68 @@ public class ModeloMedicao {
             java.util.Date utildate = formatter.parse(data);
 
             statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
-            ResultSet queryResult = statement.executeQuery();
             
-            if (queryResult.next()) {
-                formatter.applyPattern("dd/MM/yyyy HH:mm:ss");
-                utildate.setTime(queryResult.getTimestamp("datahora").getTime());
+            return ModeloMedicao.loadFromDB(statement);
+
+        } catch (Exception e) {
+            System.out.println("Failed to load from DB: " + e);
+        }
+        return medicoes;
+    }
+        
+    public static ModeloMedicao prevFromDB(String data) {
+        try {
+            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+            PreparedStatement statement = conn.prepareStatement( 
+                    "SELECT * FROM medidasautomaticas "
+                    + "WHERE datahora <= ? "
+                    + "ORDER BY datahora DESC "
+                    + "LIMIT 2;");
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            java.util.Date utildate = formatter.parse(data);
+
+            statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            
+            return ModeloMedicao.loadFromDB(statement);
+            
+        } catch (Exception e) {
+            System.out.println("Failed to prepare SQL statement: " + e);
+            return new ModeloMedicao();
+        }        
+    }
+    
+    public static ModeloMedicao nextFromDB(String data) {
+        try {
+            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+            PreparedStatement statement = conn.prepareStatement( 
+                    "SELECT * FROM medidasautomaticas "
+                    + "WHERE datahora >= ? "
+                    + "ORDER BY datahora ASC "
+                    + "LIMIT 2;");
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            java.util.Date utildate = formatter.parse(data);
+
+            statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            
+            return ModeloMedicao.loadFromDB(statement);
+
+        } catch (Exception e) {
+            System.out.println("Failed to prepare SQL statement: " + e);
+            return new ModeloMedicao();
+            
+        }
+    }
+    
+    private static ModeloMedicao loadFromDB(PreparedStatement statement) {
+        ModeloMedicao medicoes = new ModeloMedicao();
+        try {
+            ResultSet queryResult = statement.executeQuery();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            
+            while (queryResult.next()) {
+                java.util.Date utildate = new java.util.Date(queryResult.getTimestamp("datahora").getTime());
                 
                 medicoes.setDatahoraautom(formatter.format(utildate));
                 medicoes.setTemperatura(queryResult.getFloat("temperatura"));
@@ -121,8 +178,8 @@ public class ModeloMedicao {
                 medicoes.setVelvento(queryResult.getFloat("velvento"));
                 medicoes.setDirvento(queryResult.getFloat("dirvento"));
             }
-        } catch (Exception e) {
-            System.out.println("Failed to load from DB: " + e);
+        } catch (SQLException ex) {
+            System.out.println("Failed to load from DB: " + ex);
         }
         return medicoes;
     }

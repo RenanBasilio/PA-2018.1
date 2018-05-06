@@ -4,10 +4,13 @@ import edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModeloObservacao {
-    private String datahoraobs = "";
+    private String datahoraobs = "00/00/00 00:00:00";
     private float altondas = 0.0F;
     private float tempagua = 0.0F;
     private Bandeira bandeira = Bandeira.unkn;
@@ -90,12 +93,66 @@ public class ModeloObservacao {
             java.util.Date utildate = formatter.parse(data);
 
             statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
-            System.out.println(statement);
-            ResultSet queryResult = statement.executeQuery();
+            return ModeloObservacao.loadFromDB(statement);
+        } catch (Exception e) {
+            System.out.println("Failed to load from DB: " + e);
+            return new ModeloObservacao();
+        }
+    }
+    
+    public static ModeloObservacao prevFromDB(String data) {
+        try {
+            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+            PreparedStatement statement = conn.prepareStatement( 
+                    "SELECT * FROM observacoes "
+                    + "WHERE datahoraobservacao <= ? "
+                    + "ORDER BY datahoraobservacao DESC "
+                    + "LIMIT 2;");
             
-            if (queryResult.next()) {
-                formatter.applyPattern("dd/MM/yyyy HH:mm:ss");
-                utildate.setTime(queryResult.getTimestamp("datahoraobservacao").getTime());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            java.util.Date utildate = formatter.parse(data);
+
+            statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            
+            return ModeloObservacao.loadFromDB(statement);
+            
+        } catch (Exception e) {
+            System.out.println("Failed to prepare SQL statement: " + e);
+            return new ModeloObservacao();
+        }        
+    }
+    
+    public static ModeloObservacao nextFromDB(String data) {
+        try {
+            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+            PreparedStatement statement = conn.prepareStatement( 
+                    "SELECT * FROM observacoes "
+                    + "WHERE datahoraobservacao >= ? "
+                    + "ORDER BY datahoraobservacao ASC "
+                    + "LIMIT 2;");
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            java.util.Date utildate = formatter.parse(data);
+
+            statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            
+            return ModeloObservacao.loadFromDB(statement);
+
+        } catch (Exception e) {
+            System.out.println("Failed to prepare SQL statement: " + e);
+            return new ModeloObservacao();
+            
+        }
+    }
+    
+    private static ModeloObservacao loadFromDB(PreparedStatement statement) {
+        ModeloObservacao observacoes = new ModeloObservacao();
+        try {
+            ResultSet queryResult = statement.executeQuery();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            
+            while (queryResult.next()) {
+                java.util.Date utildate = new java.util.Date(queryResult.getTimestamp("datahoraobservacao").getTime());
                 
                 observacoes.setDatahoraobs(formatter.format(utildate));
                 observacoes.setAltondas(queryResult.getFloat("alturaondas"));
@@ -104,8 +161,8 @@ public class ModeloObservacao {
                 Bandeira band = Bandeira.valueOf(queryResult.getString("bandeira"));
                 observacoes.setBandeira(band);
             }
-        } catch (Exception e) {
-            System.out.println("Failed to load from DB: " + e);
+        } catch (SQLException ex) {
+            System.out.println("Failed to load from DB: " + ex);
         }
         return observacoes;
     }
