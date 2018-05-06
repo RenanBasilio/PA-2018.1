@@ -14,23 +14,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author renan
+ * Servlet que lida com consultas ao banco de dados na página principal.
+ * @author Renan Basilio
  */
 public class SearchController extends HttpServlet {
     
     /**
-     * Initializes a DriverPool in the PoolManager with the database utilized by
-     * this Servlet.
+     * Inicializa a DiverPool no PoolManager com a base de dados a ser utilizada
+     * por este Servlet.
      * @throws ServletException 
      */
     @Override
     public void init() throws ServletException {
         DriverPool pool = PoolManager.getInstance().addPool("tempoclimanet");
-        pool.setServer("localhost");
-        pool.setPort(5432);
+        pool.setServer("localhost", 5432);
         pool.setDatabase("tempoclimanet");
-        pool.setCredentials("postgres", "admin");
+        pool.setDefaultCredentials("postgres", "admin");
         pool.initialize();
     }
 

@@ -19,7 +19,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <title>TempoClima</title>
         
-        <link rel="stylesheet" type="text/css" href="<%= contexto%>/Resources/CSS/index.css"/>
+        <link rel="stylesheet" type="text/css" href="<%= contexto%>/Resources/css/index.css"/>
 
     </head>
     
@@ -40,26 +40,43 @@
             <form method="GET" action="consulta">
                 Data-hora: 
                 <input type="text" size="16" name="data" 
-                       value=<% DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                       value=<% 
+                                // Inicializa o formato da data da caixa de busca.
+                                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                                 String dateStr = "";
                                 
+                                // Se o tamanho dos parâmetros no request for zero, trata-se
+                                // do primeiro carregamento.
                                 if (request.getParameterMap().size() == 0) {
+                                    // Inicializa uma nova data com a data e hora atuais e
+                                    // formata a mesma em uma string.
                                     Date date = new Date();
                                     dateStr = dateFormat.format(date);
-                                    
+
+                                    // Carrega as medidas mais recentes da base de dados.
                                     ModeloMedicao medidas = ModeloMedicao.fromDB(dateStr);
                                     ModeloObservacao observacoes = ModeloObservacao.fromDB(dateStr);
+                                    
+                                    // Seta os atributos referentes às mesmas no pedido.
                                     request.setAttribute("MEDICAO", medidas);
                                     request.setAttribute("OBSERVACAO", observacoes);
-                                    
+
                                 }
+                                // Se o request não possui parâmetro data, este provém da ativação
+                                // de um controle.
                                 else if (request.getParameter("data") == null) {
+                                    // Cria e formata a data atual para preencher a caixa de busca.
                                     Date date = new Date();
                                     dateStr = dateFormat.format(date);
                                 }
+                                // Caso contrário, o request provém de uma busca.
                                 else {
+                                    // Então seta o texto da caixa de busca como a própria data e hora
+                                    // da busca.
                                     dateStr = request.getParameter("data");
                                 }
+                                
+                                // Preenche a caixa de busca.
                                 out.println("\""+dateStr+"\"");
                                 %>
                        style="font-size:1.05em;text-align:center;"/>
