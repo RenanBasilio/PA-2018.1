@@ -40,7 +40,7 @@ public class ModeloObservacao {
         }
 
         public String getDesc() {
-            return this.getDesc();
+            return this.desc;
         }
     }
 

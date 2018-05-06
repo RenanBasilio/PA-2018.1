@@ -93,7 +93,9 @@
                 Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>
                 Bandeira do serviço de guarda-vidas: 
                 <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor};font-weight:bold;">
-                    ${OBSERVACAO.bandeira.nome}
+                    <div class="tooltip">${OBSERVACAO.bandeira.nome}
+                        <span class="tooltiptext">${OBSERVACAO.bandeira.desc}</span>
+                    </div>
                 </span><br>
             </div>
             
