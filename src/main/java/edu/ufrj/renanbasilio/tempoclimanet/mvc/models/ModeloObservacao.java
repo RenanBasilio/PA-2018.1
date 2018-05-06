@@ -90,6 +90,7 @@ public class ModeloObservacao {
             java.util.Date utildate = formatter.parse(data);
 
             statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            System.out.println(statement);
             ResultSet queryResult = statement.executeQuery();
             
             if (queryResult.next()) {
