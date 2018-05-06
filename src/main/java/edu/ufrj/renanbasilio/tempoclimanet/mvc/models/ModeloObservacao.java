@@ -1,40 +1,111 @@
 package edu.ufrj.renanbasilio.tempoclimanet.mvc.models;
 
+import edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
 public class ModeloObservacao {
     private String datahoraobs = "";
     private float altondas = 0.0F;
-    private int tempagua = 0;
-    private String bandsalvavidas = "verde";
+    private float tempagua = 0.0F;
+    private Bandeira bandeira = Bandeira.unkn;
+    
+    public enum Bandeira {
+        verd("Verde", "Mar bom.", "forestgreen"),
+        amar("Amarela", "Cuidado com o mar.", "yellow"),
+        verm("Vermelha", "Mar perigoso." ,"red"),
+        pret("Preta", "Não entre, risco de morte.", "black"),
+        azul("Azul", "Pessoa encontrada.", "blue"),
+        roxo("Roxo", "Atenção, animais marinhos.", "purple"),
+        unkn("Desconhecida", "Não há bandeira disponível.", "gray");
 
-    public String getDataHoraObs() {
+        private final String nome;
+        private final String desc;
+        private final String cor;
+
+        private Bandeira(String nome, String desc, String cor) {
+            this.nome = nome;
+            this.desc = desc;
+            this.cor = cor;
+        }
+
+        public String getNome() {
+           return this.nome;
+        }
+
+        public String getCor() {
+            return this.cor;
+        }
+
+        public String getDesc() {
+            return this.getDesc();
+        }
+    }
+
+    public String getDatahoraobs() {
         return datahoraobs;
     }
 
-    public void setDataHoraObs(String datahora) {
+    public void setDatahoraobs(String datahora) {
         this.datahoraobs = datahora;
     }
 
-    public float getAlturaOndas() {
+    public float getAltondas() {
         return altondas;
     }
 
-    public void setAlturaOndas(float altura) {
+    public void setAltondas(float altura) {
         this.altondas = altura;
     }
 
-    public int getTemperaturaAgua() {
+    public float getTempagua() {
         return tempagua;
     }
 
-    public void setTemperaturaAgua(int temperatura) {
+    public void setTempagua(float temperatura) {
         this.tempagua = temperatura;
     }
-
-    public String getBandeiraSalvaVidas() {
-        return bandsalvavidas;
+    
+    public Bandeira getBandeira() {
+        return bandeira;
     }
+    
+    public void setBandeira (Bandeira bandeira) {
+        this.bandeira = bandeira;
+    }
+    
+    public static ModeloObservacao fromDB(String data) {
+        ModeloObservacao observacoes = new ModeloObservacao();
+        try {
+            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+            PreparedStatement statement = conn.prepareStatement( 
+                    "SELECT * FROM observacoes "
+                    + "WHERE datahoraobservacao <= ? "
+                    + "ORDER BY datahoraobservacao DESC "
+                    + "LIMIT 1;");
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            java.util.Date utildate = formatter.parse(data);
 
-    public void setBandeiraSalvaVidas(String cor) {
-        this.bandsalvavidas = cor;
-    }    
+            statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            ResultSet queryResult = statement.executeQuery();
+            
+            if (queryResult.next()) {
+                formatter.applyPattern("dd/MM/yyyy HH:mm:ss");
+                utildate.setTime(queryResult.getTimestamp("datahoraobservacao").getTime());
+                
+                observacoes.setDatahoraobs(formatter.format(utildate));
+                observacoes.setAltondas(queryResult.getFloat("alturaondas"));
+                observacoes.setTempagua(queryResult.getFloat("temperaturaagua"));
+                
+                Bandeira band = Bandeira.valueOf(queryResult.getString("bandeira"));
+                observacoes.setBandeira(band);
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to load from DB: " + e);
+        }
+        return observacoes;
+    }
 }

@@ -1,4 +1,9 @@
+<%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao"%>
+<%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloMedicao"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.net.URL"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% URL contexto = new URL(
             "http",
@@ -31,12 +36,28 @@
             Local: <span class="classTexto1">Rio de Janeiro, RJ, Brasil - Posto 9</span>
         </div>
         <div id="idDivDatahora">
-            <br>
-            Data-hora:  
-            <form method="GET" action="controller">
-                <input type="text" size="16" name="search" 
-                      value="04/04/2018 10:10"
-                      style="font-size:1.05em;text-align:center;"/>
+            <br> 
+            <form method="GET" action="consulta">
+                Data-hora: 
+                <input type="text" size="16" name="data" 
+                       value=<% DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                                
+                                if (request.getParameter("data") == null) {
+                                    Date date = new Date();
+                                    String dateStr = dateFormat.format(date);
+                                    
+                                    ModeloMedicao medidas = ModeloMedicao.fromDB(dateStr);
+                                    ModeloObservacao observacoes = ModeloObservacao.fromDB(dateStr);
+                                    request.setAttribute("MEDICAO", medidas);
+                                    request.setAttribute("OBSERVACAO", observacoes);
+                                    
+                                    out.println("\""+dateStr+"\"");
+                                }
+                                else {
+                                    out.println("\""+request.getParameter("data")+"\"");
+                                }
+                                 %>
+                       style="font-size:1.05em;text-align:center;"/>
                 <button type="submit" style="font-size:1.05em;">BUSCAR</button>
                 <br>
                 <br>
@@ -53,9 +74,9 @@
                 MEDIDAS AUTOMÁTICAS<br>
                 <br>
                 Data-hora: <span id="datahoraautom" class="classTexto1">${MEDICAO.datahoraautom}</span><br>
-                Temperatura: <span id="temperatura" class="classTexto1">${MEDICAO.temperatura}ºC</span><br>
+                Temperatura: <span id="temperatura" class="classTexto1">${MEDICAO.temperatura} ºC</span><br>
                 Umidade: <span id="umidade" class="classTexto1">${MEDICAO.umidade}%</span><br>
-                Ponto de orvalho: <span id="orvalho" class="classTexto1">${MEDICAO.orvalho}ºC</span><br>
+                Ponto de orvalho: <span id="orvalho" class="classTexto1">${MEDICAO.orvalho} ºC</span><br>
                 Pressão atmosférica: <span id="pressao" class="classTexto1">${MEDICAO.pressao} hPa</span><br>
                 Taxa de precipitação: <span id="precipitacao" class="classTexto1">${MEDICAO.precipitacao} mm/h</span><br>
                 Precipitação acumulada: <span id="precipacumul" class="classTexto1">${MEDICAO.precipacumul} mm</span><br>
@@ -67,12 +88,12 @@
             <div id="idDivObserv" class="shadowBorder">
                 OBSERVAÇÕES<br>
                 <br>
-                Data-hora: <span id="datahoraobs" class="classTexto1">04/04/2018 10:10</span><br>
-                Altura das ondas: <span id="altondas" class="classTexto1">0,9 m</span><br>
-                Temperatura da água: <span id="tempagua" class="classTexto1">20ºC</span><br>
+                Data-hora: <span id="datahoraobs" class="classTexto1">${OBSERVACAO.datahoraobs}</span><br>
+                Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
+                Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>
                 Bandeira do serviço de guarda-vidas: 
-                <span id="bandsalvavidas" style="color:forestgreen;font-weight:bold;">
-                    verde
+                <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor};font-weight:bold;">
+                    ${OBSERVACAO.bandeira.nome}
                 </span><br>
             </div>
             

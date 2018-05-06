@@ -1,4 +1,11 @@
 package edu.ufrj.renanbasilio.tempoclimanet.mvc.models;
+import edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager;
+import java.io.*;
+import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ModeloMedicao {
 
@@ -10,7 +17,7 @@ public class ModeloMedicao {
     private float precipitacao = 0.0F;
     private float precipacumul = 0.0F;
     private float velvento = 0.0F;
-    private String dirvento = "";
+    private float dirvento = 0.0F;
     
     public String getDatahoraautom() {
         return datahoraautom;
@@ -76,11 +83,47 @@ public class ModeloMedicao {
         this.velvento = velocidade;
     }
 
-    public String getDirvento() {
+    public float getDirvento() {
         return dirvento;
     }
 
-    public void setDirvento(String direcao) {
+    public void setDirvento(float direcao) {
         this.dirvento = direcao;
+    }
+    
+    public static ModeloMedicao fromDB(String data) {
+        ModeloMedicao medicoes = new ModeloMedicao();
+        try {
+            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+            PreparedStatement statement = conn.prepareStatement( 
+                    "SELECT * FROM medidasautomaticas "
+                    + "WHERE datahora <= ? "
+                    + "ORDER BY datahora DESC "
+                    + "LIMIT 1;");
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            java.util.Date utildate = formatter.parse(data);
+
+            statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+            ResultSet queryResult = statement.executeQuery();
+            
+            if (queryResult.next()) {
+                formatter.applyPattern("dd/MM/yyyy HH:mm:ss");
+                utildate.setTime(queryResult.getTimestamp("datahora").getTime());
+                
+                medicoes.setDatahoraautom(formatter.format(utildate));
+                medicoes.setTemperatura(queryResult.getFloat("temperatura"));
+                medicoes.setUmidade(queryResult.getFloat("umidade"));
+                medicoes.setOrvalho(queryResult.getFloat("orvalho"));
+                medicoes.setPressao(queryResult.getFloat("pressao"));
+                medicoes.setPrecipitacao(queryResult.getFloat("taxaprecipitacao"));
+                medicoes.setPrecipacumul(queryResult.getFloat("precipitacaoacum"));
+                medicoes.setVelvento(queryResult.getFloat("velvento"));
+                medicoes.setDirvento(queryResult.getFloat("dirvento"));
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to load from DB: " + e);
+        }
+        return medicoes;
     }
 }
