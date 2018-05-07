@@ -144,15 +144,12 @@ public class ModeloObservacao {
      /**
      * Cria um ModeloObservacao a partir dos dados mais recentes em relação a uma
      * data que estejam armazenados no banco de dados.
+     * @param conn A conexão com a base de dados.
      * @param data A data desejada.
      * @return O ModeloObservacao referente a esta data.
      */
-    public static ModeloObservacao fromDB(String data) {
-        try {
-            // Recupera o pool de conexões do singleton PoolManager, e recupera
-            // uma conexão deste pool.
-            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
-            
+    public static ModeloObservacao fromDB(Connection conn, String data) {
+        try {            
             PreparedStatement statement = conn.prepareStatement( 
                     "SELECT * FROM observacoes "
                     + "WHERE datahoraobservacao <= ? "
@@ -176,13 +173,12 @@ public class ModeloObservacao {
      * Recupera um ModelObservacao anterior à data fornecida.
      * Se esta for a última data da tabela, retorna o ModeloObservacao referente
      * à própria.
+     * @param conn A conexão com a base de dados.
      * @param data A data de referência.
      * @return O ModeloObservacao imediatamente anterior a esta.
      */
-    public static ModeloObservacao prevFromDB(String data) {
+    public static ModeloObservacao prevFromDB(Connection conn, String data) {
         try {
-            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
-            
             /**
              * As decisões de design referentes a este statement estão
              * discutidas no método equivalente do ModeloMedição.
@@ -211,13 +207,12 @@ public class ModeloObservacao {
      * Recupera um ModeloObservacao posterior à data fornecida.
      * Se esta for a data mais recente da tabela, retorna o ModeloObservacao 
      * referente à própria.
+     * @param conn A conexão com a base de dados.
      * @param data A data de referência.
      * @return O ModeloObservacao imediatamente anterior a esta.
      */
-    public static ModeloObservacao nextFromDB(String data) {
+    public static ModeloObservacao nextFromDB(Connection conn, String data) {
         try {
-            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
-            
             /**
              * As decisões de design referentes a este statement estão
              * discutidas no método equivalente do ModeloMedição.

@@ -54,8 +54,12 @@
                                     dateStr = dateFormat.format(date);
 
                                     // Carrega as medidas mais recentes da base de dados.
-                                    ModeloMedicao medidas = ModeloMedicao.fromDB(dateStr);
-                                    ModeloObservacao observacoes = ModeloObservacao.fromDB(dateStr);
+                                    ModeloMedicao medidas = ModeloMedicao.fromDB(
+                                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                                        dateStr);
+                                    ModeloObservacao observacoes = ModeloObservacao.fromDB(
+                                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                                        dateStr);
                                     
                                     // Seta os atributos referentes às mesmas no pedido.
                                     request.setAttribute("MEDICAO", medidas);

@@ -176,15 +176,12 @@ public class ModeloMedicao {
     /**
      * Cria um ModeloMedição a partir dos dados mais recentes em relação a uma
      * data que estejam armazenados no banco de dados.
+     * @param conn A conexão com a base de dados.
      * @param data A data desejada.
      * @return O ModeloMedição referente a esta data.
      */
-    public static ModeloMedicao fromDB(String data) {
+    public static ModeloMedicao fromDB(Connection conn, String data) {
         try {
-            // Recupera o pool de conexões do singleton PoolManager, e recupera
-            // uma conexão deste pool.
-            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
-            
             PreparedStatement statement = conn.prepareStatement( 
                     "SELECT * FROM medidasautomaticas "
                     + "WHERE datahora <= ? "
@@ -208,13 +205,12 @@ public class ModeloMedicao {
      * Recupera um ModeloMedição anterior à data fornecida.
      * Se esta for a última data da tabela, retorna o ModeloMedição referente à 
      * própria.
+     * @param conn A conexão com a base de dados.
      * @param data A data de referência.
      * @return O ModeloMedição imediatamente anterior a esta.
      */
-    public static ModeloMedicao prevFromDB(String data) {
+    public static ModeloMedicao prevFromDB(Connection conn, String data) {
         try {
-            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
-            
             /**
              * O statement preparado para esta query busca os dois objetos mais
              * próximos anteriores à data.
@@ -251,13 +247,12 @@ public class ModeloMedicao {
      * Recupera um ModeloMedição posterior à data fornecida.
      * Se esta for a data mais recente da tabela, retorna o ModeloMedição 
      * referente à própria.
+     * @param conn A conexão com a base de dados.
      * @param data A data de referência.
      * @return O ModeloMedição imediatamente anterior a esta.
      */
-    public static ModeloMedicao nextFromDB(String data) {
+    public static ModeloMedicao nextFromDB(Connection conn, String data) {
         try {
-            Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
-            
             /**
              * O statement preparado para esta query busca os dois objetos mais
              * próximos posteriores à data.

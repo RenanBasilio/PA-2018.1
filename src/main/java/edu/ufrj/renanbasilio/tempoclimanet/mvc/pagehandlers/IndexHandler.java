@@ -1,5 +1,6 @@
 package edu.ufrj.renanbasilio.tempoclimanet.mvc.pagehandlers;
 
+import edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager;
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloMedicao;
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +25,12 @@ public class IndexHandler implements IFHandler {
         // modelos com uma consulta pela mesma ao banco de dados.
         if (request.getParameter("data") != null) {
             String data = request.getParameter("data");
-            medicoes = ModeloMedicao.fromDB(data);
-            observacoes = ModeloObservacao.fromDB(data);
+            medicoes = ModeloMedicao.fromDB(
+                PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                data);
+            observacoes = ModeloObservacao.fromDB(
+                PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                data);
         }
         // Caso contrário, temos a ativação de um controle.
         else {
@@ -35,13 +40,21 @@ public class IndexHandler implements IFHandler {
                 // dados. Aquí, dataobs e datamed são as datas do modelo
                 // carregado no momento do pedido.
                 case "next":
-                    observacoes = ModeloObservacao.nextFromDB(request.getParameter("dataobs"));
-                    medicoes = ModeloMedicao.nextFromDB(request.getParameter("datamed"));
+                    observacoes = ModeloObservacao.nextFromDB(
+                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                        request.getParameter("dataobs"));
+                    medicoes = ModeloMedicao.nextFromDB(
+                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                        request.getParameter("datamed"));
                     break;
                 // Controle que representa o botão "Anterior".
                 case "prev":
-                    observacoes = ModeloObservacao.prevFromDB(request.getParameter("dataobs"));
-                    medicoes = ModeloMedicao.prevFromDB(request.getParameter("datamed"));
+                    observacoes = ModeloObservacao.prevFromDB(
+                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                        request.getParameter("dataobs"));
+                    medicoes = ModeloMedicao.prevFromDB(
+                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
+                        request.getParameter("datamed"));
                     break;
                 // Controle desconhecido; retorna um par de modelos vazios.
                 default:

@@ -15,6 +15,10 @@ import org.postgresql.ds.PGConnectionPoolDataSource;
 public class DriverPool {
     private static PGConnectionPoolDataSource postgresDataSource;
     
+    // Configurações Default do DriverPool. Não altere aquí, e sim no momento
+    // da inicialização da pool.
+    // Esta inicialização é feita no Servlet que utiliza o banco de dados, no
+    // caso "SearchController", na função init().
     private String serverAddress = "localhost";
     private int portNumber = 5432;
     private String dbName = "";
