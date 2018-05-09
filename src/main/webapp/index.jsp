@@ -3,7 +3,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.net.URL"%>
 <%@page import="java.util.Date"%>
-<%@page import="java.text.DateFormat" %>
+<%@page import="java.text.DateFormat"%>
+<%@page import="import java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% URL contexto = new URL(
             "http",
@@ -53,13 +54,11 @@
                                     Date date = new Date();
                                     dateStr = dateFormat.format(date);
 
+                                    Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+
                                     // Carrega as medidas mais recentes da base de dados.
-                                    ModeloMedicao medidas = ModeloMedicao.fromDB(
-                                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
-                                        dateStr);
-                                    ModeloObservacao observacoes = ModeloObservacao.fromDB(
-                                        PoolManager.getInstance().getPool("tempoclimanet").getConnection(),
-                                        dateStr);
+                                    ModeloMedicao medidas = ModeloMedicao.fromDB(conn, dateStr);
+                                    ModeloObservacao observacoes = ModeloObservacao.fromDB(conn, dateStr);
                                     
                                     // Seta os atributos referentes às mesmas no pedido.
                                     request.setAttribute("MEDICAO", medidas);
@@ -131,7 +130,7 @@
                 Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
                 Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>
                 Bandeira do serviço de guarda-vidas: 
-                <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor};font-weight:bold;">
+                <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor}; font-weight:bold;">
                     <div class="tooltip">${OBSERVACAO.bandeira.nome}
                         <span class="tooltiptext">${OBSERVACAO.bandeira.desc}</span>
                     </div>
