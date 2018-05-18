@@ -1,5 +1,4 @@
 package edu.ufrj.renanbasilio.tempoclimanet.mvc.models;
-import edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -299,7 +298,6 @@ public class ModeloMedicao {
     private static ModeloMedicao fromResultSet(ResultSet queryResult) {
         ModeloMedicao medicoes = new ModeloMedicao();
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             
             /**
              * Idealmente, poderia ser utilizado queryResult.last() para

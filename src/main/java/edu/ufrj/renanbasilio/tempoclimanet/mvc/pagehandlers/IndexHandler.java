@@ -5,6 +5,8 @@ import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloMedicao;
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import org.postgresql.ds.PGConnectionPoolDataSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +26,13 @@ public class IndexHandler implements IFHandler {
         ModeloMedicao medicoes;
         ModeloObservacao observacoes;
 
-        Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+        Connection conn;
+		try {
+			conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
+		} catch (SQLException e1) {
+            e1.printStackTrace();
+            return pagina;
+		}
 
         // Se a consulta estiver sendo feita por data, inicializa ambos os
         // modelos com uma consulta pela mesma ao banco de dados.

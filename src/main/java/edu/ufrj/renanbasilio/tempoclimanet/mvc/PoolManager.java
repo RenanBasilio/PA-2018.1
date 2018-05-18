@@ -7,13 +7,18 @@ package edu.ufrj.renanbasilio.tempoclimanet.mvc;
 
 import java.util.HashMap;
 
+import javax.sql.ConnectionPoolDataSource;
+
+import org.postgresql.ds.PGConnectionPoolDataSource;
+
 /**
  * Singleton que gerencia todas as pools de conexão utilizadas pelo servidor.
  * @author Renan Basilio
  */
 public class PoolManager {
     private static PoolManager instance = null;
-    private HashMap<String, DriverPool> pools = new HashMap<String, DriverPool>();;
+    private HashMap<String, ConnectionPoolDataSource> pools = new HashMap<String, ConnectionPoolDataSource>();
+    //private HashMap<String, DriverPool> pools = new HashMap<String, DriverPool>();;
     
     private PoolManager() {};
     
@@ -31,8 +36,19 @@ public class PoolManager {
      * @param name O nome a ser mapeado ao novo DriverPool.
      * @return O DriverPool recém criado.
      */
-    public DriverPool addPool(String name) {
-        DriverPool pool = new DriverPool();
+    public ConnectionPoolDataSource addPool(String name, ConnectionPoolDataSource pool) {
+        pools.put(name, pool);
+        return pool;
+    }
+
+    /**
+     * Adiciona uma nova ConnectionPool DataSource com conexão a base de dados
+     * Postgres ao PoolManager.
+     * @param name O nome ao qual a nova pool será mapeado.
+     * @return A pool criada.
+     */
+    public ConnectionPoolDataSource addPostgres(String name) {
+        ConnectionPoolDataSource pool = new PGConnectionPoolDataSource();
         pools.put(name, pool);
         return pool;
     }
@@ -42,7 +58,7 @@ public class PoolManager {
      * @param name O nome com que a DriverPool foi registrada.
      * @return A DriverPool referente a este nome.
      */
-    public DriverPool getPool(String name) {
+    public ConnectionPoolDataSource getPool(String name) {
         return pools.get(name);
     }
     

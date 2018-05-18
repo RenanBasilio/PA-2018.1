@@ -7,11 +7,12 @@ package edu.ufrj.renanbasilio.tempoclimanet.mvc;
 
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.pagehandlers.IFHandler;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.postgresql.ds.PGConnectionPoolDataSource;
 
 /**
  * Servlet que lida com consultas ao banco de dados na página principal.
@@ -26,11 +27,12 @@ public class SearchController extends HttpServlet {
      */
     @Override
     public void init() throws ServletException {
-        DriverPool pool = PoolManager.getInstance().addPool("tempoclimanet");
-        pool.setServer("localhost", 5432);
-        pool.setDatabase("tempoclimanet");
-        pool.setDefaultCredentials("postgres", "admin");
-        pool.initialize();
+        PGConnectionPoolDataSource pool = (PGConnectionPoolDataSource) PoolManager.getInstance().addPostgres("tempoclimanet");
+        pool.setServerName("localhost");
+        pool.setDatabaseName("tempoclimanet");
+        pool.setPortNumber(5432);
+        pool.setUser("postgres");
+        pool.setPassword("admin");
     }
 
     /**

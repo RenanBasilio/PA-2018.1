@@ -1,6 +1,5 @@
 package edu.ufrj.renanbasilio.tempoclimanet.mvc.models;
 
-import edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,10 +1,13 @@
 <%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao"%>
 <%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloMedicao"%>
+<%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.net.URL"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="import java.sql.Connection"%>
+<%@page import="org.postgresql.ds.PGConnectionPoolDataSource"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% URL contexto = new URL(
             "http",
@@ -54,7 +57,7 @@
                                     Date date = new Date();
                                     dateStr = dateFormat.format(date);
 
-                                    Connection conn = PoolManager.getInstance().getPool("tempoclimanet").getConnection();
+                                    Connection conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
 
                                     // Carrega as medidas mais recentes da base de dados.
                                     ModeloMedicao medidas = ModeloMedicao.fromDB(conn, dateStr);
@@ -99,7 +102,7 @@
         <div id="idDiv1">
             
             <div id="idDivMedAutom" class="shadowBorder">
-                <span style="line-height:0.9;">
+                <span style="line-height:0.9;display:inline">
                     MEDIDAS AUTOMÁTICAS
                     <br>
                     <span class="classSubTexto">(igual ou anterior ao momento consulta)</span>
