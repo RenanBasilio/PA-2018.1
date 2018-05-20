@@ -5,9 +5,17 @@
         <servlet-class>edu.ufrj.renanbasilio.tempoclimanet.mvc.SearchController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>ScrollController</servlet-name>
+        <servlet-class>edu.ufrj.renanbasilio.tempoclimanet.mvc.ScrollController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SearchController</servlet-name>
         <url-pattern>/consulta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ScrollController</servlet-name>
+        <url-pattern>/scroll</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -15,6 +23,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>consulta</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -7,36 +7,18 @@ package edu.ufrj.renanbasilio.tempoclimanet.mvc;
 
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.pagehandlers.IFHandler;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.postgresql.ds.PGConnectionPoolDataSource;
 
 /**
- * Servlet que lida com consultas ao banco de dados na página principal.
- * @author Renan Basilio
+ *
+ * @author RenanBasilio
  */
-public class SearchController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-    /**
-     * Inicializa a DiverPool no PoolManager com a base de dados a ser utilizada
-     * por este Servlet.
-     * @throws ServletException 
-     */
-    @Override
-    public void init() throws ServletException {
-        if(PoolManager.getInstance().getPool("tempoclimanet") == null){
-            PGConnectionPoolDataSource pool = (PGConnectionPoolDataSource) PoolManager.getInstance().addPostgres("tempoclimanet");
-            pool.setServerName("localhost");
-            pool.setDatabaseName("tempoclimanet");
-            pool.setPortNumber(5432);
-            pool.setUser("postgres");
-            pool.setPassword("admin");
-        }
-    }
+public class ScrollController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,7 +37,7 @@ public class SearchController extends HttpServlet {
         response.setCharacterEncoding("UTF8");
         IFHandler handler;
         try {
-            String handlerClass = "edu.ufrj.renanbasilio.tempoclimanet.mvc.pagehandlers.IndexHandler";
+            String handlerClass = "edu.ufrj.renanbasilio.tempoclimanet.mvc.pagehandlers.ScrollHandler";
             
             handler = (IFHandler) Class.forName(handlerClass).newInstance();
             String returnPage = handler.process(request, response);

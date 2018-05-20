@@ -6,6 +6,9 @@ import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.postgresql.ds.PGConnectionPoolDataSource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,48 +28,41 @@ public class IndexHandler implements IFHandler {
         // Declara os modelos passíveis de serem retornados por este processo.
         ModeloMedicao medicoes;
         ModeloObservacao observacoes;
+        String dataBusca;
 
         Connection conn;
-		try {
-			conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
-		} catch (SQLException e1) {
+        try {
+            conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
+        } catch (SQLException e1) {
             e1.printStackTrace();
             return pagina;
-		}
+        }
 
         // Se a consulta estiver sendo feita por data, inicializa ambos os
         // modelos com uma consulta pela mesma ao banco de dados.
         if (request.getParameter("data") != null) {
-            String data = request.getParameter("data");
-            medicoes = ModeloMedicao.fromDB(conn, data);
-            observacoes = ModeloObservacao.fromDB(conn, data);
+            dataBusca = request.getParameter("data");
+            medicoes = ModeloMedicao.fromDB(conn, dataBusca);
+            observacoes = ModeloObservacao.fromDB(conn, dataBusca);
         }
-        // Caso contrário, temos a ativação de um controle.
+        // Se chamado sem nenhum parametro, faz uma busca com a data atual.
         else {
-            switch (request.getParameter("q")) {
-                // Controle que representa o botão "Posterior". Inicializa
-                // os modelos com os dados relevantes a partir do banco de
-                // dados. Aquí, dataobs e datamed são as datas do modelo
-                // carregado no momento do pedido.
-                case "next":
-                    observacoes = ModeloObservacao.nextFromDB(conn, request.getParameter("dataobs"));
-                    medicoes = ModeloMedicao.nextFromDB(conn, request.getParameter("datamed"));
-                    break;
-                // Controle que representa o botão "Anterior".
-                case "prev":
-                    observacoes = ModeloObservacao.prevFromDB(conn, request.getParameter("dataobs"));
-                    medicoes = ModeloMedicao.prevFromDB(conn, request.getParameter("datamed"));
-                    break;
-                // Controle desconhecido; retorna um par de modelos vazios.
-                default:
-                    medicoes = new ModeloMedicao();
-                    observacoes = new ModeloObservacao();
-                    break;
-            }
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            
+            // Inicializa uma nova data com a data e hora atuais e
+            // formata a mesma em uma string.
+            Date date = new Date();
+            dataBusca = dateFormat.format(date);
+
+            // Carrega as medidas mais recentes da base de dados.
+            medicoes = ModeloMedicao.fromDB(conn, dataBusca);
+            observacoes = ModeloObservacao.fromDB(conn, dataBusca);
         }
+        
         
         // Seta os atributos MEDICAO e OBSERVACAO do pedido com os modelos
         // inicializados.
+        request.setAttribute("DATABUSCA", dataBusca);
         request.setAttribute("MEDICAO", medicoes);
         request.setAttribute("OBSERVACAO", observacoes);
         
