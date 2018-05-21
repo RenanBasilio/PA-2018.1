@@ -29,7 +29,6 @@ public class ScrollHandler implements IFHandler{
         // Declara os modelos passíveis de serem retornados por este processo.
         ModeloMedicao medicoes;
         ModeloObservacao observacoes;
-        String dataBusca;
         
         Connection conn;
         try {
