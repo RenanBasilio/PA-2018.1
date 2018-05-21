@@ -186,7 +186,7 @@ public class ModeloMedicao {
                     + "WHERE datahora <= ? "
                     + "ORDER BY datahora DESC "
                     + "LIMIT 1;");
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             java.util.Date utildate = formatter.parse(data);
 
             statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));

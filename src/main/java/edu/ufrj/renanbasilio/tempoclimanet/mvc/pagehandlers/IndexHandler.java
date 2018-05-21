@@ -47,7 +47,7 @@ public class IndexHandler implements IFHandler {
         }
         // Se chamado sem nenhum parametro, faz uma busca com a data atual.
         else {
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             
             // Inicializa uma nova data com a data e hora atuais e
             // formata a mesma em uma string.

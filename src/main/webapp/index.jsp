@@ -1,13 +1,4 @@
-<%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao"%>
-<%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloMedicao"%>
-<%@page import="edu.ufrj.renanbasilio.tempoclimanet.mvc.PoolManager"%>
-<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.net.URL"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.text.DateFormat"%>
-<%@page import="org.postgresql.ds.PGConnectionPoolDataSource"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.SQLException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% URL contexto = new URL(
             "http",
@@ -24,7 +15,7 @@
         <title>TempoClima</title>
         
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/Resources/css/index.css"/>
-
+        <script type="text/javascript" src="<%= contexto%>/Resources/scripts/controle.css"></script>
     </head>
     
     <body background="<%= contexto%>/Resources/Images/praia.jpg">

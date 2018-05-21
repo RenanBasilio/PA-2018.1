@@ -42,7 +42,7 @@ public class ScrollHandler implements IFHandler{
         
         if (request.getParameter("med") != null){
             observacoes = ModeloObservacao.fromDB(conn, request.getParameter("dataobs"));
-            switch (request.getParameter("obs")) {
+            switch (request.getParameter("med")) {
                 case "next":
                     medicoes = ModeloMedicao.nextFromDB(conn, request.getParameter("datamed"));
                     break;
