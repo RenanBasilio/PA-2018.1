@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 /**
  * Classe que representa um modelo de observações. Este modelo reflete
@@ -16,6 +18,7 @@ public class ModeloObservacao {
     private float altondas = 0.0F;
     private float tempagua = 0.0F;
     private Bandeira bandeira = Bandeira.unkn;
+    private JsonObject modeloJSON;
     
     public Boolean isLoaded() {
         return datahoraobs.equals("00/00/00 00:00:00");
@@ -272,5 +275,33 @@ public class ModeloObservacao {
             System.out.println("Failed to load from DB: " + ex);
         }
         return observacoes;
+    }
+    
+    /**
+     * Constroi um objeto JSON baseado neste modelo e o retorna.
+     * @return O objeto JSON criado.
+     */
+    public JsonObject toJSON() {
+        /**
+         * O objeto JSON é armazenado em uma variável interna de forma que não
+         * precisa ser construído novamente caso este método venha a ser chamado
+         * multiplas vezes sobre o mesmo objeto.
+         */
+        if(modeloJSON != null) return modeloJSON;
+        
+        modeloJSON = Json.createObjectBuilder()
+                .add("datahoraobs", datahoraobs)
+                .add("altondas", altondas)
+                .add("tempagua", tempagua)
+                .add("bandeira", 
+                        Json.createObjectBuilder()
+                        .add("nome", bandeira.getNome())
+                        .add("desc", bandeira.getDesc())
+                        .add("cor", bandeira.getCor())
+                        .build()
+                        )
+                .build();
+        
+        return modeloJSON;
     }
 }

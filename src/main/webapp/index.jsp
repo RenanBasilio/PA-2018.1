@@ -15,7 +15,7 @@
         <title>TempoClima</title>
         
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/Resources/css/index.css"/>
-        <script type="text/javascript" src="<%= contexto%>/Resources/js/controle.css"></script>
+        <script type="text/javascript" src="<%= contexto%>/Resources/js/controle.js"></script>
     </head>
     
     <body background="<%= contexto%>/Resources/Images/praia.jpg">
@@ -37,7 +37,7 @@
                 <input type="text" size="16" name="data" 
                        value="${DATABUSCA}"
                        style="font-size:1.05em;text-align:center;"/>
-                <button type="submit" style="font-size:1.05em;">BUSCAR</button>
+                <button type="button" style="font-size:1.05em;" onclick="buscar(data.value);">BUSCAR</button>
             </form>
             <br>
             <form id="scrollform" method="POST" action="scroll">

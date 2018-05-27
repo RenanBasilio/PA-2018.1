@@ -1,6 +1,8 @@
 package edu.ufrj.renanbasilio.tempoclimanet.mvc.models;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 /**
  * Classe que representa um modelo de medições automáticas. Este modelo reflete
@@ -18,6 +20,7 @@ public class ModeloMedicao {
     private float precipacumul = 0.0F;
     private float velvento = 0.0F;
     private float dirvento = 0.0F;
+    private JsonObject modeloJSON;
     
     public Boolean isLoaded() {
         return datahoraautom.equals("00/00/00 00:00:00");
@@ -320,5 +323,32 @@ public class ModeloMedicao {
             System.out.println("Failed to load from DB: " + ex);
         }
         return medicoes;
+    }
+    
+    /**
+     * Constroi um objeto JSON baseado neste modelo e o retorna.
+     * @return O objeto JSON criado.
+     */
+    public JsonObject toJSON() {
+        /**
+         * O objeto JSON é armazenado em uma variável interna de forma que não
+         * precisa ser construído novamente caso este método venha a ser chamado
+         * multiplas vezes sobre o mesmo objeto.
+         */
+        if(modeloJSON != null) return modeloJSON;
+        
+        modeloJSON = Json.createObjectBuilder()
+                .add("datahoraautom", datahoraautom)
+                .add("temperatura", temperatura)
+                .add("umidade", umidade)
+                .add("orvalho", orvalho)
+                .add("pressao", pressao)
+                .add("precipitacao", precipitacao)
+                .add("precipacumul", precipacumul)
+                .add("velvento", velvento)
+                .add("dirvento", dirvento)
+                .build();
+        
+        return modeloJSON;
     }
 }
