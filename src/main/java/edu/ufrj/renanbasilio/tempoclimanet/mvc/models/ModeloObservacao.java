@@ -17,6 +17,10 @@ public class ModeloObservacao {
     private float tempagua = 0.0F;
     private Bandeira bandeira = Bandeira.unkn;
     
+    public Boolean isLoaded() {
+        return datahoraobs.equals("00/00/00 00:00:00");
+    }
+    
     /**
      * Esta enumeração define a tradução das bandeiras do serviço de
      * guarda-vidas utilizadas da representação com 4 letras armazenada na base
@@ -184,9 +188,9 @@ public class ModeloObservacao {
              */
             PreparedStatement statement = conn.prepareStatement( 
                     "SELECT * FROM observacoes "
-                    + "WHERE datahoraobservacao <= ? "
+                    + "WHERE datahoraobservacao < ? "
                     + "ORDER BY datahoraobservacao DESC "
-                    + "LIMIT 2;");
+                    + "LIMIT 1;");
             
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             java.util.Date utildate = formatter.parse(data);
@@ -218,9 +222,9 @@ public class ModeloObservacao {
              */
             PreparedStatement statement = conn.prepareStatement( 
                     "SELECT * FROM observacoes "
-                    + "WHERE datahoraobservacao >= ? "
+                    + "WHERE datahoraobservacao > ? "
                     + "ORDER BY datahoraobservacao ASC "
-                    + "LIMIT 2;");
+                    + "LIMIT 1;");
             
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             java.util.Date utildate = formatter.parse(data);

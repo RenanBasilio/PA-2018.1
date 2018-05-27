@@ -19,6 +19,10 @@ public class ModeloMedicao {
     private float velvento = 0.0F;
     private float dirvento = 0.0F;
     
+    public Boolean isLoaded() {
+        return datahoraautom.equals("00/00/00 00:00:00");
+    }
+    
     /**
      * Recupera a data e hora desta medição automática, formatada como uma
      * string no formato 'dd/MM/yyyy HH:mm:ss'.
@@ -211,22 +215,18 @@ public class ModeloMedicao {
     public static ModeloMedicao prevFromDB(Connection conn, String data) {
         try {
             /**
-             * O statement preparado para esta query busca os dois objetos mais
-             * próximos anteriores à data.
-             * Recuperando estes dois dados com relação menor-igual garantimos
-             * que sempre encontraremos ao menos a própria data, e 
-             * potencialmente a data anterior a esta. Estes resultados são
-             * ordenados de forma descendente por sua data, o que faz com que a
-             * data desejada seja sempre a última; Se houver somente a data da
-             * busca só haverá uma linha e esta será portanto a última; caso
-             * contrário haverão duas datas e a data desejada será a última pois
-             * sua data é inferior à data da busca.
+             * Critério reconsiderado. Inicialmente, foi considerado que seria
+             * ineficiente realizar duas consultas casos os elementos sejam o
+             * primeiro ou o último da base de dados. No entanto, para o
+             * carregamento de elementos anteriores o elemento ser o primeiro da
+             * base de dados caracteriza um pior caso. Assim, torna-se mais
+             * eficiente realizar duas consultas separadas.
              */
             PreparedStatement statement = conn.prepareStatement( 
                     "SELECT * FROM medidasautomaticas "
-                    + "WHERE datahora <= ? "
+                    + "WHERE datahora < ? "
                     + "ORDER BY datahora DESC "
-                    + "LIMIT 2;");
+                    + "LIMIT 1;");
             
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             java.util.Date utildate = formatter.parse(data);
@@ -253,22 +253,16 @@ public class ModeloMedicao {
     public static ModeloMedicao nextFromDB(Connection conn, String data) {
         try {
             /**
-             * O statement preparado para esta query busca os dois objetos mais
-             * próximos posteriores à data.
-             * Recuperando estes dois dados com relação maior-igual garantimos
-             * que sempre encontraremos ao menos a própria data, e 
-             * potencialmente a data posterior a esta. Estes resultados são
-             * ordenados de forma ascendente por sua data, o que faz com que a
-             * data desejada seja sempre a última; Se houver somente a data da
-             * busca só haverá uma linha e esta será portanto a última; caso
-             * contrário haverão duas datas e a data desejada será a última pois
-             * sua data é superior à data da busca.
+             * Critério reconsiderado. Para facilitar a execução de queries
+             * futuras a partir do uso de chamadas AJAX, que será a forma
+             * primária de execução, torna-se mais vantajoso executar duas
+             * consultas no caso menos frequente de noscript.
              */
             PreparedStatement statement = conn.prepareStatement( 
                     "SELECT * FROM medidasautomaticas "
-                    + "WHERE datahora >= ? "
+                    + "WHERE datahora > ? "
                     + "ORDER BY datahora ASC "
-                    + "LIMIT 2;");
+                    + "LIMIT 1;");
             
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             java.util.Date utildate = formatter.parse(data);

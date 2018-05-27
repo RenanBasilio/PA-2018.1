@@ -44,9 +44,11 @@ public class ScrollHandler implements IFHandler{
             switch (request.getParameter("med")) {
                 case "next":
                     medicoes = ModeloMedicao.nextFromDB(conn, request.getParameter("datamed"));
+                    if (!medicoes.isLoaded()) medicoes = ModeloMedicao.fromDB(conn, request.getParameter("datamed"));
                     break;
                 case "prev":
                     medicoes = ModeloMedicao.prevFromDB(conn, request.getParameter("datamed"));
+                    if (!medicoes.isLoaded()) medicoes = ModeloMedicao.fromDB(conn, request.getParameter("datamed"));
                     break;
                 default:
                     medicoes = ModeloMedicao.fromDB(conn, request.getParameter("datamed"));
@@ -58,9 +60,11 @@ public class ScrollHandler implements IFHandler{
             switch (request.getParameter("obs")) {
                 case "next":
                     observacoes = ModeloObservacao.nextFromDB(conn, request.getParameter("dataobs"));
+                    if (!observacoes.isLoaded()) observacoes = ModeloObservacao.fromDB(conn, request.getParameter("dataobs"));
                     break;
                 case "prev":
                     observacoes = ModeloObservacao.prevFromDB(conn, request.getParameter("dataobs"));
+                    if (!observacoes.isLoaded()) observacoes = ModeloObservacao.fromDB(conn, request.getParameter("dataobs"));
                     break;
                 default:
                     observacoes = ModeloObservacao.fromDB(conn, request.getParameter("dataobs"));
