@@ -15,7 +15,7 @@
         <title>TempoClima</title>
         
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/Resources/css/index.css"/>
-        <script type="text/javascript" src="<%= contexto%>/Resources/scripts/controle.css"></script>
+        <script type="text/javascript" src="<%= contexto%>/Resources/js/controle.css"></script>
     </head>
     
     <body background="<%= contexto%>/Resources/Images/praia.jpg">
