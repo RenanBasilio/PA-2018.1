@@ -14,11 +14,11 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <title>TempoClima</title>
         
-        <link rel="stylesheet" type="text/css" href="<%= contexto%>/Resources/css/index.css"/>
-        <script type="text/javascript" src="<%= contexto%>/Resources/js/controle.js"></script>
+        <link rel="stylesheet" type="text/css" href="<%= contexto%>/resources/css/index.css"/>
+        <script type="text/javascript" src="<%= contexto%>/scripts/controle.js"></script>
     </head>
     
-    <body background="<%= contexto%>/Resources/Images/praia.jpg">
+    <body background="<%= contexto%>/resources/img/praia.jpg">
         <div id="idHeader">
             <div id="idNomeSite">TempoClimaNET</div>
             <div id="idDELPOLI">EEL418 / DEL / POLI / UFRJ</div>
@@ -100,13 +100,13 @@
 
                 <div id="idDivFotos" class="shadowBorder">
                     FOTOS<br>
-                    <img class="meia-caixa" src="<%= contexto%>/Resources/Images/praia.jpg" border="0">
-                    <img class="meia-caixa" src="<%= contexto%>/Resources/Images/radar.png"/>
+                    <img class="meia-caixa" src="<%= contexto%>/resources/img/praia.jpg" border="0">
+                    <img class="meia-caixa" src="<%= contexto%>/resources/img/radar.png"/>
                 </div>
 
                 <div id="idDivGraficos" class="shadowBorder">
                     GRÁFICOS<br>
-                    <img class="caixa-inteira" src="<%= contexto%>/Resources/Images/grafico.temper.png"/>
+                    <img class="caixa-inteira" src="<%= contexto%>/resources/Images/grafico.temper.png"/>
                 </div>
             </div>
             <br>
