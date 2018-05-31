@@ -21,7 +21,7 @@ public class ModeloObservacao {
     private JsonObject modeloJSON;
     
     public Boolean isLoaded() {
-        return datahoraobs.equals("00/00/00 00:00:00");
+        return !datahoraobs.equals("00/00/00 00:00:00");
     }
     
     /**

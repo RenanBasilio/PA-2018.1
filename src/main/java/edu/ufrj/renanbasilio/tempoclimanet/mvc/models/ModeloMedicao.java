@@ -23,7 +23,7 @@ public class ModeloMedicao {
     private JsonObject modeloJSON;
     
     public Boolean isLoaded() {
-        return datahoraautom.equals("00/00/00 00:00:00");
+        return !datahoraautom.equals("00/00/00 00:00:00");
     }
     
     /**
