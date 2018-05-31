@@ -236,7 +236,7 @@ public class ModeloMedicao {
 
             statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
             ResultSet queryResult = statement.executeQuery();
-            
+                        
             return ModeloMedicao.fromResultSet(queryResult);
             
         } catch (Exception e) {
@@ -330,6 +330,8 @@ public class ModeloMedicao {
      * @return O objeto JSON criado.
      */
     public JsonObject toJSON() {
+        if(!isLoaded()) return JsonObject.EMPTY_JSON_OBJECT;
+        
         /**
          * O objeto JSON é armazenado em uma variável interna de forma que não
          * precisa ser construído novamente caso este método venha a ser chamado

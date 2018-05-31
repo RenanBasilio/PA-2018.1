@@ -75,11 +75,11 @@ public class AjaxController extends HttpServlet {
                 out.print(observacoes.toJSON().toString());
                 break;
             // A scrollright request returns the object immediately after the date requested.
-            case "scrollRightMed":
+            case "scrollrightMed":
                 medicoes = ModeloMedicao.nextFromDB(conn, date);
                 out.print(medicoes.toJSON().toString());
                 break;
-            case "scrollRightObs":
+            case "scrollrightObs":
                 observacoes = ModeloObservacao.nextFromDB(conn, date);
                 out.print(observacoes.toJSON().toString());
                 break;

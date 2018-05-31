@@ -78,7 +78,7 @@ public class ScrollHandler implements IFHandler{
         
         // Seta os atributos MEDICAO e OBSERVACAO do pedido com os modelos
         // inicializados.
-        request.setAttribute("DATABUSCA", request.getParameter("data"));
+        request.setAttribute("DATABUSCA", request.getParameter("databusca"));
         request.setAttribute("MEDICAO", medicoes);
         request.setAttribute("OBSERVACAO", observacoes);
         

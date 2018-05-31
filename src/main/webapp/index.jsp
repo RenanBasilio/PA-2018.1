@@ -15,6 +15,10 @@
         <title>TempoClima</title>
         
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/resources/css/index.css"/>
+        <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/slick-1.8.0/slick/slick.css"/>
+        
+        <script type="text/javascript" src="<%= contexto%>/scripts/jquery-3.3.1/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="<%= contexto%>/scripts/slick-1.8.0/slick/slick.min.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/controle.js"></script>
     </head>
     
@@ -41,9 +45,9 @@
             </form>
             <br>
             <form id="scrollform" method="POST" action="scroll">
-                <input type="hidden" name="datamed" value="${MEDICAO.datahoraautom}"/>
-                <input type="hidden" name="dataobs" value="${OBSERVACAO.datahoraobs}"/>
-                <input type="hidden" name="data" value="${DATABUSCA}"/>
+                <input id='datamed' type="hidden" name="datamed" value="${MEDICAO.datahoraautom}"/>
+                <input id='dataobs' type="hidden" name="dataobs" value="${OBSERVACAO.datahoraobs}"/>
+                <input id='databusca' type="hidden" name="databusca" value="${DATABUSCA}"/>
             </form>
         </div>
         <div class="flex-container">
@@ -53,24 +57,32 @@
                     <span style="line-height:0.9;display:inline">
                         MEDIDAS AUTOMÁTICAS
                         <span id="scrollformControls" style="float:right">
-                            <button type="submit" name="med" value="prev" form="scrollform"><</button>
-                            <button type="submit" name="med" value="next" form="scrollform">></button>
+                            <noscript>
+                                <button type="submit" name="med" value="prev" form="scrollform"><</button>
+                                <button type="submit" name="med" value="next" form="scrollform">></button>
+                            </noscript>
+                            <div id="divMedsJsButtons">
+                            </div>
                         </span>
                         <br>
                         <span class="classSubTexto">(igual ou anterior ao momento consulta)</span>
                     </span>
                     <br>
                     <br>
-                    Data-hora: <span id="datahoraautom" class="classTexto1">${MEDICAO.datahoraautom}</span><br>
-                    Temperatura: <span id="temperatura" class="classTexto1">${MEDICAO.temperatura} ºC</span><br>
-                    Umidade: <span id="umidade" class="classTexto1">${MEDICAO.umidade}%</span><br>
-                    Ponto de orvalho: <span id="orvalho" class="classTexto1">${MEDICAO.orvalho} ºC</span><br>
-                    Pressão atmosférica: <span id="pressao" class="classTexto1">${MEDICAO.pressao} hPa</span><br>
-                    Taxa de precipitação: <span id="precipitacao" class="classTexto1">${MEDICAO.precipitacao} mm/h</span><br>
-                    Precipitação acumulada: <span id="precipacumul" class="classTexto1">${MEDICAO.precipacumul} mm</span><br>
-                    (últimas 24h)<br>
-                    Velocidade do Vento: <span id="velvento" class="classTexto1">${MEDICAO.velvento} km/h</span><br>
-                    Direção do vento: <span id="dirvento" class="classTexto1">${MEDICAO.dirvento}</span><br>
+                    <div id="divMedsAuto" class="medidasAutomaticas">
+                        <div>
+                        Data-hora: <span class="classTexto1">${MEDICAO.datahoraautom}</span><br>
+                        Temperatura: <span class="classTexto1">${MEDICAO.temperatura} ºC</span><br>
+                        Umidade: <span id="umidade" class="classTexto1">${MEDICAO.umidade}%</span><br>
+                        Ponto de orvalho: <span id="orvalho" class="classTexto1">${MEDICAO.orvalho} ºC</span><br>
+                        Pressão atmosférica: <span id="pressao" class="classTexto1">${MEDICAO.pressao} hPa</span><br>
+                        Taxa de precipitação: <span id="precipitacao" class="classTexto1">${MEDICAO.precipitacao} mm/h</span><br>
+                        Precipitação acumulada: <span id="precipacumul" class="classTexto1">${MEDICAO.precipacumul} mm</span><br>
+                        (últimas 24h)<br>
+                        Velocidade do Vento: <span id="velvento" class="classTexto1">${MEDICAO.velvento} km/h</span><br>
+                        Direção do vento: <span id="dirvento" class="classTexto1">${MEDICAO.dirvento}</span><br>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="idDivObserv" class="shadowBorder">
@@ -106,7 +118,7 @@
 
                 <div id="idDivGraficos" class="shadowBorder">
                     GRÁFICOS<br>
-                    <img class="caixa-inteira" src="<%= contexto%>/resources/Images/grafico.temper.png"/>
+                    <img class="caixa-inteira" src="<%= contexto%>/resources/img/grafico.temper.png"/>
                 </div>
             </div>
             <br>

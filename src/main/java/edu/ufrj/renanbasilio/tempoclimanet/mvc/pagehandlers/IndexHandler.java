@@ -41,7 +41,7 @@ public class IndexHandler implements IFHandler {
         // Se a consulta estiver sendo feita por data, inicializa ambos os
         // modelos com uma consulta pela mesma ao banco de dados.
         if (request.getParameter("data") != null) {
-            dataBusca = request.getParameter("data");
+            dataBusca = request.getParameter("databusca");
             medicoes = ModeloMedicao.fromDB(conn, dataBusca);
             observacoes = ModeloObservacao.fromDB(conn, dataBusca);
         }
