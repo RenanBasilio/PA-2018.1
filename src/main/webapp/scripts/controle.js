@@ -4,19 +4,20 @@
  * and open the template in the editor.
  */
 
-var htmlMedicao = [
-    '<div> Data-hora: <span class="classTexto1">', 
-    ' </span><br> Temperatura: <span class="classTexto1">',
-    ' ºC </span><br>Umidade: <span id="umidade" class="classTexto1">',
-    ' %</span><br>Ponto de orvalho: <span id="orvalho" class="classTexto1">',
-    ' ºC</span><br>Pressão atmosférica: <span id="pressao" class="classTexto1">',
-    ' hPa</span><br>Taxa de precipitação: <span id="precipitacao" class="classTexto1">',
-    ' mm/h</span><br>Precipitação acumulada: <span id="precipacumul" class="classTexto1">',
-    ' mm</span><br>(últimas 24h)<br>Velocidade do Vento: <span id="velvento" class="classTexto1">',
-    ' km/h</span><br>Direção do vento: <span id="dirvento" class="classTexto1">',
-    '</span><br></div>'
-]
-
+/**
+ * Faz um pedido Ajax ao servidor. Utiliza o controlador /ajax? com os 
+ * parametros type e date, na convenção:
+ * /TempoClimaNet/ajax?type=${tipo}&date=${data}
+ * 
+ * Tipos de pedido:
+ *      lookup, scrollleftMed, scrollrightMed, scrollleftObs, scrollrightObs
+ * Formato da string de data:
+ *      dd/MM/yyyy HH:mm:ss
+ * 
+ * @param {String} tipo O tipo do pedido.
+ * @param {String} data A data sendo relacionada ao pedido.
+ * @param {function} callback Um método a ser chamado quando o pedido retornar.
+ */
 function doAjax(tipo, data, callback) {
     var url = "http://localhost:8080/TempoClimaNet/ajax?type=" + tipo + "&date=" + data;
     var ajaxRequest = new XMLHttpRequest();
@@ -33,6 +34,112 @@ function doAjax(tipo, data, callback) {
     ajaxRequest.send(null);
 }
 
+/**
+ * Converte um valor numérico em uma string com n ou mais casas decimais.
+ * @param {Numer} value O valor a ser convertido.
+ * @param {Integer} deciPlaces O número mínimo de casas decimais.
+ * @return {String} A string convertida.
+ */
+function getDecimalString(value, deciPlaces) {
+    return value.toFixed(Math.max(deciPlaces, (value.toString().split('.')[1] || []).length));
+}
+
+/**
+ * Constroi o html do display de medição a partir de sua representação json.
+ * @param {Object} jsonMedicao O objeto json que representa a medição.
+ * @return {String} O html referente ao display de medição.
+ */
+function buildHtmlMedicao(jsonMedicao) {
+    var html = 
+        '<div>' +
+            'Data-hora: <span class="classTexto1">' + 
+            jsonMedicao.datahoraautom + ' </span><br>' +
+            'Temperatura: <span class="classTexto1">' +
+            getDecimalString(jsonMedicao.temperatura) + ' ºC </span><br>' +
+            'Umidade: <span id="umidade" class="classTexto1">' +
+            getDecimalString(jsonMedicao.umidade) + ' %</span><br>' +
+            'Ponto de orvalho: <span id="orvalho" class="classTexto1">' + 
+            getDecimalString(jsonMedicao.orvalho) + ' ºC</span><br>' +
+            'Pressão atmosférica: <span id="pressao" class="classTexto1">' +
+            getDecimalString(jsonMedicao.pressao) + ' hPa</span><br>' +
+            'Taxa de precipitação: <span id="precipitacao" class="classTexto1">' +
+            getDecimalString(jsonMedicao.precipitacao) + ' mm/h</span><br>'+
+            'Precipitação acumulada: <span id="precipacumul" class="classTexto1">' +
+            getDecimalString(jsonMedicao.precipacumul) + ' mm</span><br>(últimas 24h)<br>' + 
+            'Velocidade do Vento: <span id="velvento" class="classTexto1">' +
+            getDecimalString(jsonMedicao.velvento) + ' km/h</span><br>' + 
+            'Direção do vento: <span id="dirvento" class="classTexto1">' +
+            getDecimalString(jsonMedicao.dirvento) + '</span><br>' + 
+        '</div>';
+
+    return html;
+}
+
+/**
+ * Constroi o html do display de observação a partir de sua representação json.
+ * @param {Object} jsonObservacao O objeto json que representa a observação.
+ * @return {String} O html referente ao display de observação.
+ */
+function buildHtmlObservacao(jsonObservacao) {
+    var html =
+        '<div>' +
+            'Data-hora: ' +
+            '<span id="datahoraobs" class="classTexto1">' + 
+                jsonObservacao.datahoraobs + '</span><br>' +
+            'Altura das ondas: ' +
+            '<span id="altondas" class="classTexto1">' +
+                getDecimalString(jsonObservacao.altondas, 1) +
+                ' m</span><br>' +
+            'Temperatura da água: ' +
+            '<span id="tempagua" class="classTexto1">' +
+                getDecimalString(jsonObservacao.tempagua, 1) +
+                ' ºC</span><br>' +
+            'Bandeira do serviço de guarda-vidas: ' +
+            '<span id="bandsalvavidas" style="color:' + 
+            jsonObservacao.bandeira.cor + '; font-weight:bold;">' +
+                '<div class="tooltip">' +
+                    jsonObservacao.bandeira.nome +
+                    '<span class="tooltiptext">' +
+                        jsonObservacao.bandeira.desc +
+                    '</span>' +
+                '</div>' + 
+            '</span>' +
+        '</div>';
+    return html;
+}
+
+/**
+ * Utiliza um carrousel do slick para criar uma animação de scroll para a direita.
+ * @param {String} carrouselId O id do carrousel a ser utilizado.
+ * @param {String} html O html a ser inserido no novo slide.  
+ */
+function slickScrollRight(carrouselId, html) {
+    var carrousel = $(carrouselId);
+    var currentSlide = carrousel.slick('slickCurrentSlide');
+    carrousel
+            .slick('slickAdd', html, currentSlide)
+            .one('afterChange', function(event, slick, currentSlide) {
+                carrousel
+                    .slick('slickRemove', currentSlide, true);});
+    carrousel.slick('slickPrev');    
+}
+
+/**
+ * Utiliza um carrousel do slick para criar uma animação de scroll para a esquerda.
+ * @param {String} carrouselId O id do carrousel a ser utilizado.
+ * @param {String} html O html a ser inserido no novo slide.  
+ */
+function slickScrollLeft(carrouselId, html) {
+    var carrousel = $(carrouselId);
+    var currentSlide = carrousel.slick('slickCurrentSlide');
+    carrousel
+            .slick('slickAdd', html, currentSlide)
+            .one('afterChange', function(event, slick, currentSlide) {
+                carrousel
+                    .slick('slickRemove', currentSlide, true);});
+    carrousel.slick('slickNext');
+}
+
 function buscar(data) {
     var respostaJson = doAjax("lookup", data);
 }
@@ -45,32 +152,10 @@ function proximaMedicaoAfter(respostaJson) {
     if (respostaJson.datahoraautom !== "00/00/00 00:00:00")
     {
         $('#datamed').val(respostaJson.datahoraautom);
-        var html = htmlMedicao[0] + respostaJson.datahoraautom +
-                htmlMedicao[1] + respostaJson.temperatura.toFixed(
-                    Math.max(1, (respostaJson.temperatura.toString().split('.')[1] || []).length)) +
-                htmlMedicao[2] + respostaJson.umidade.toFixed(
-                    Math.max(1, (respostaJson.umidade.toString().split('.')[1] || []).length)) +
-                htmlMedicao[3] + respostaJson.orvalho.toFixed(
-                    Math.max(1, (respostaJson.orvalho.toString().split('.')[1] || []).length)) + 
-                htmlMedicao[4] + respostaJson.pressao.toFixed(
-                    Math.max(1, (respostaJson.pressao.toString().split('.')[1] || []).length)) + 
-                htmlMedicao[5] + respostaJson.precipitacao.toFixed(
-                    Math.max(1, (respostaJson.precipitacao.toString().split('.')[1] || []).length)) +
-                htmlMedicao[6] + respostaJson.precipacumul.toFixed(
-                    Math.max(1, (respostaJson.precipacumul.toString().split('.')[1] || []).length)) +
-                htmlMedicao[7] + respostaJson.velvento.toFixed(
-                    Math.max(1, (respostaJson.velvento.toString().split('.')[1] || []).length)) +
-                htmlMedicao[8] + respostaJson.dirvento.toFixed(
-                    Math.max(1, (respostaJson.dirvento.toString().split('.')[1] || []).length)) +
-                htmlMedicao[9];
-                        
-        var currentSlide = $('.medidasAutomaticas').slick('slickCurrentSlide');
-        $('.medidasAutomaticas')
-                .slick('slickAdd', html, currentSlide)
-                .one('afterChange', function(event, slick, currentSlide) {
-                    $('.medidasAutomaticas')
-                        .slick('slickRemove', currentSlide, true);});
-        $('.medidasAutomaticas').slick('slickPrev');
+
+        var html = buildHtmlMedicao(respostaJson);
+        
+        slickScrollLeft('.displayMedicao', html);
     }
 }
 
@@ -82,48 +167,56 @@ function anteriorMedicaoAfter(respostaJson) {
     if (respostaJson.datahoraautom !== "00/00/00 00:00:00")
     {
         $('#datamed').val(respostaJson.datahoraautom);
-        var html = htmlMedicao[0] + respostaJson.datahoraautom +
-                htmlMedicao[1] + respostaJson.temperatura.toFixed(
-                    Math.max(1, (respostaJson.temperatura.toString().split('.')[1] || []).length)) +
-                htmlMedicao[2] + respostaJson.umidade.toFixed(
-                    Math.max(1, (respostaJson.umidade.toString().split('.')[1] || []).length)) +
-                htmlMedicao[3] + respostaJson.orvalho.toFixed(
-                    Math.max(1, (respostaJson.orvalho.toString().split('.')[1] || []).length)) + 
-                htmlMedicao[4] + respostaJson.pressao.toFixed(
-                    Math.max(1, (respostaJson.pressao.toString().split('.')[1] || []).length)) + 
-                htmlMedicao[5] + respostaJson.precipitacao.toFixed(
-                    Math.max(1, (respostaJson.precipitacao.toString().split('.')[1] || []).length)) +
-                htmlMedicao[6] + respostaJson.precipacumul.toFixed(
-                    Math.max(1, (respostaJson.precipacumul.toString().split('.')[1] || []).length)) +
-                htmlMedicao[7] + respostaJson.velvento.toFixed(
-                    Math.max(1, (respostaJson.velvento.toString().split('.')[1] || []).length)) +
-                htmlMedicao[8] + respostaJson.dirvento.toFixed(
-                    Math.max(1, (respostaJson.dirvento.toString().split('.')[1] || []).length)) +
-                htmlMedicao[9];
-
-        var currentSlide = $('.medidasAutomaticas').slick('slickCurrentSlide');
-        $('.medidasAutomaticas')
-                .slick('slickAdd', html, currentSlide)
-                .one('afterChange', function(event, slick, currentSlide) {
-                    $('.medidasAutomaticas')
-                        .slick('slickRemove', currentSlide, true);});
-        $('.medidasAutomaticas').slick('slickNext');
+        
+        var html = buildHtmlMedicao(respostaJson);
+        
+        slickScrollRight('.displayMedicao', html);
     }
 }
 
-function proximaObservacao(data) {
-    
+function proximaObservacao() {
+    var respostaJson = doAjax("scrollrightObs", $('#dataobs').val(), proximaObservacaoAfter);
 }
 
-function anteriorObservacao(data) {
-    
+function proximaObservacaoAfter(respostaJson) {
+    if (respostaJson.datahoraobs !== "00/00/00 00:00:00")
+    {
+        $('#dataobs').val(respostaJson.datahoraobs);
+        
+        var html = buildHtmlObservacao(respostaJson);
+        
+        slickScrollLeft('.displayObservacao', html);
+    }
+}
+
+function anteriorObservacao() {
+    var respostaJson = doAjax("scrollleftObs", $('#dataobs').val(), anteriorObservacaoAfter);
+}
+
+function anteriorObservacaoAfter(respostaJson) {
+    if (respostaJson.datahoraobs !== "00/00/00 00:00:00")
+    {
+        $('#dataobs').val(respostaJson.datahoraobs);
+        
+        var html = buildHtmlObservacao(respostaJson);
+        
+        slickScrollRight('.displayObservacao', html);
+    }
 }
 
 $(document).ready(function(){
-  $('#divMedsJsButtons')
+  $('#scrollformControlsJsMedicao')
           .html('<input type="button" value="<" onclick="anteriorMedicao()"/>\n\
                  <input type="button" value=">" onclick="proximaMedicao()"/>');
-  $('.medidasAutomaticas').slick({
+  $('#scrollformControlsJsObservacao')
+          .html('<input type="button" value="<" onclick="anteriorObservacao()"/>\n\
+                 <input type="button" value=">" onclick="proximaObservacao()"/>');          
+  $('.displayMedicao').slick({
+      slidesToShow: 1,
+      waitForAnimate: true,
+      arrows: false
+  });
+  $('.displayObservacao').slick({
       slidesToShow: 1,
       waitForAnimate: true,
       arrows: false
@@ -134,5 +227,5 @@ $(document).ready(function(){
       dots: true,
       autoplay: true,
       autoplaySpeed: 2500
-  })
+  });
 });

@@ -62,7 +62,7 @@
                             <button type="submit" name="med" value="prev" form="scrollform"><</button>
                             <button type="submit" name="med" value="next" form="scrollform">></button>
                             </noscript>
-                            <div id="divMedsJsButtons">
+                            <div id="scrollformControlsJsMedicao">
                             </div>
                         </span>
                         <br>
@@ -70,19 +70,21 @@
                     </span>
                     <br>
                     <br>
-                    <div id="divMedsAuto" class="medidasAutomaticas">
-                        <div>
-                            Data-hora: <span class="classTexto1">${MEDICAO.datahoraautom}</span><br>
-                            Temperatura: <span class="classTexto1">${MEDICAO.temperatura} ºC</span><br>
-                            Umidade: <span id="umidade" class="classTexto1">${MEDICAO.umidade}%</span><br>
-                            Ponto de orvalho: <span id="orvalho" class="classTexto1">${MEDICAO.orvalho} ºC</span><br>
-                            Pressão atmosférica: <span id="pressao" class="classTexto1">${MEDICAO.pressao} hPa</span><br>
-                            Taxa de precipitação: <span id="precipitacao" class="classTexto1">${MEDICAO.precipitacao} mm/h</span><br>
-                            Precipitação acumulada: <span id="precipacumul" class="classTexto1">${MEDICAO.precipacumul} mm</span><br>
-                            (últimas 24h)<br>
-                            Velocidade do Vento: <span id="velvento" class="classTexto1">${MEDICAO.velvento} km/h</span><br>
-                            Direção do vento: <span id="dirvento" class="classTexto1">${MEDICAO.dirvento}</span><br>
-                        </div>
+                    <div id="divMedicao" class="displayMedicao">
+                        <noscript>
+                            <div>
+                                Data-hora: <span class="classTexto1">${MEDICAO.datahoraautom}</span><br>
+                                Temperatura: <span class="classTexto1">${MEDICAO.temperatura} ºC</span><br>
+                                Umidade: <span id="umidade" class="classTexto1">${MEDICAO.umidade}%</span><br>
+                                Ponto de orvalho: <span id="orvalho" class="classTexto1">${MEDICAO.orvalho} ºC</span><br>
+                                Pressão atmosférica: <span id="pressao" class="classTexto1">${MEDICAO.pressao} hPa</span><br>
+                                Taxa de precipitação: <span id="precipitacao" class="classTexto1">${MEDICAO.precipitacao} mm/h</span><br>
+                                Precipitação acumulada: <span id="precipacumul" class="classTexto1">${MEDICAO.precipacumul} mm</span><br>
+                                (últimas 24h)<br>
+                                Velocidade do Vento: <span id="velvento" class="classTexto1">${MEDICAO.velvento} km/h</span><br>
+                                Direção do vento: <span id="dirvento" class="classTexto1">${MEDICAO.dirvento}</span><br>
+                            </div>
+                        </noscript>
                     </div>
                 </div>
 
@@ -90,23 +92,33 @@
                     <span style="line-height:0.9;">
                         OBSERVAÇÕES
                         <span id="scrollformControls" style="float:right">
+                            <noscript>
                             <button type="submit" name="obs" value="prev" form="scrollform"><</button>
                             <button type="submit" name="obs" value="next" form="scrollform">></button>
+                            </noscript>
+                            <div id="scrollformControlsJsObservacao">
+                            </div>
                         </span>
                         <br>
                         <span class="classSubTexto">(igual ou anterior ao momento consulta)</span>
                     </span>
                     <br>
                     <br>
-                    Data-hora: <span id="datahoraobs" class="classTexto1">${OBSERVACAO.datahoraobs}</span><br>
-                    Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
-                    Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>
-                    Bandeira do serviço de guarda-vidas: 
-                    <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor}; font-weight:bold;">
-                        <div class="tooltip">${OBSERVACAO.bandeira.nome}
-                            <span class="tooltiptext">${OBSERVACAO.bandeira.desc}</span>
-                        </div>
-                    </span>
+                    <div id="divObs" class="displayObservacao">
+                        <noscript>
+                            <div>
+                                Data-hora: <span id="datahoraobs" class="classTexto1">${OBSERVACAO.datahoraobs}</span><br>
+                                Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
+                                Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>
+                                Bandeira do serviço de guarda-vidas: 
+                                <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor}; font-weight:bold;">
+                                    <div class="tooltip">${OBSERVACAO.bandeira.nome}
+                                        <span class="tooltiptext">${OBSERVACAO.bandeira.desc}</span>
+                                    </div>
+                                </span>
+                            </div>
+                        </noscript>
+                    </div>
                     <br>
                 </div>
 
