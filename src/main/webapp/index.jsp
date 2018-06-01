@@ -17,8 +17,10 @@
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/resources/css/index.css"/>
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/slick-1.8.0/slick/slick.css"/>
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/slick-1.8.0/slick/slick-theme.css"/>
+        <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>
 
         <script type="text/javascript" src="<%= contexto%>/scripts/jquery-3.3.1/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="<%= contexto%>/scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/slick-1.8.0/slick/slick.min.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/controle.js"></script>
     </head>
@@ -110,16 +112,26 @@
                                 Data-hora: <span id="datahoraobs" class="classTexto1">${OBSERVACAO.datahoraobs}</span><br>
                                 Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
                                 Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>
-                                Bandeira do serviço de guarda-vidas: 
+                                Bandeira: 
                                 <span id="bandsalvavidas" style="color:${OBSERVACAO.bandeira.cor}; font-weight:bold;">
                                     <div class="tooltip">${OBSERVACAO.bandeira.nome}
                                         <span class="tooltiptext">${OBSERVACAO.bandeira.desc}</span>
                                     </div>
                                 </span>
                             </div>
+                            <br>
+                            <br>
+                            <br>
                         </noscript>
                     </div>
-                    <br>
+                    <div class="bottom-align">
+                        <div class="center-justify">
+                            <p class="classSubTexto">
+                            Bandeira levantada pelo serviço de guarda vidas no 
+                            momento em que a observação foi realizada.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
 

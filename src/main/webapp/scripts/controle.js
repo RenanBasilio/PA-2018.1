@@ -41,7 +41,7 @@ function doAjax(tipo, data, callback) {
  * @return {String} A string convertida.
  */
 function getDecimalString(value, deciPlaces) {
-    return value.toFixed(Math.max(deciPlaces, (value.toString().split('.')[1] || []).length));
+    return value.toFixed(deciPlaces);
 }
 
 /**
@@ -94,7 +94,7 @@ function buildHtmlObservacao(jsonObservacao) {
             '<span id="tempagua" class="classTexto1">' +
                 getDecimalString(jsonObservacao.tempagua, 1) +
                 ' ºC</span><br>' +
-            'Bandeira do serviço de guarda-vidas: ' +
+            'Bandeira: ' +
             '<span id="bandsalvavidas" style="color:' + 
             jsonObservacao.bandeira.cor + '; font-weight:bold;">' +
                 '<div class="tooltip">' +
@@ -104,6 +104,7 @@ function buildHtmlObservacao(jsonObservacao) {
                     '</span>' +
                 '</div>' + 
             '</span>' +
+            '<br><br><br>'
         '</div>';
     return html;
 }
