@@ -47,7 +47,7 @@ body{
     text-align:center;
     font-weight:bold;
     color: dodgerblue;
-    width: 35%;
+    width: 40%;
     height: 40px;
     line-height: 0.75;
     margin: auto;
@@ -60,7 +60,7 @@ body{
     text-align:center;
     font-weight:bold;
     color: dodgerblue;
-    width: 35%;
+    width: 40%;
     height: 60px;
     line-height: 0.75;
     margin: auto;
@@ -103,12 +103,13 @@ body{
     color:grey;
 }
 .flex-container{
-    display: flex;
+    /*display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center;*/
 }
 .meia-caixa{
-    width:48%;
+    max-height: 100%;
 }
 .caixa-inteira{
     width:95%;
@@ -160,4 +161,8 @@ body{
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.slick-prev:before, .slick-next:before { 
+    color: dodgerblue !important;
 }

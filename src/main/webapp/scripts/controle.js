@@ -128,4 +128,11 @@ $(document).ready(function(){
       waitForAnimate: true,
       arrows: false
   });
+  $('.divFotos').slick({
+      adaptativeHeight: true,
+      slidesToShow: 1,
+      dots: true,
+      autoplay: true,
+      autoplaySpeed: 2500
+  })
 });
