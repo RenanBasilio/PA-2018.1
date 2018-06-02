@@ -128,11 +128,16 @@ body{
 }
 .meia-caixa{
     max-height: 100%;
+    width: 48%;
 }
 .caixa-inteira{
     width:95%;
     margin-left:auto;
     margin-right:auto;
+}
+.divFotos{
+    max-width:75%;
+    margin: 1.5% auto;
 }
 
 /* Tooltip container */

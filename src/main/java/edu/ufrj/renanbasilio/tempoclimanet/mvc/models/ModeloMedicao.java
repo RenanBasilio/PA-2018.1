@@ -202,7 +202,7 @@ public class ModeloMedicao {
             return ModeloMedicao.fromResultSet(queryResult);
 
         } catch (Exception e) {
-            System.out.println("Failed to load from DB: " + e); 
+            System.out.println("Failed to prepare SQL statement: " + e); 
         }
         return new ModeloMedicao();
     }

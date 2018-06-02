@@ -136,7 +136,7 @@
 
                 <div id="idDivFotos" class="shadowBorder">
                     FOTOS<br>
-                    <div class='divFotos' style='max-width:75%; margin: 2% auto'>
+                    <div class='divFotos' style=''>
                         <img class="meia-caixa" src="<%= contexto%>/resources/img/praia.jpg" />
                         <img class="meia-caixa" src="<%= contexto%>/resources/img/radar.png" />
                     </div>
