@@ -17,10 +17,8 @@
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/resources/css/index.css"/>
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/slick-1.8.0/slick/slick.css"/>
         <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/slick-1.8.0/slick/slick-theme.css"/>
-        <link rel="stylesheet" type="text/css" href="<%= contexto%>/scripts/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>
 
         <script type="text/javascript" src="<%= contexto%>/scripts/jquery-3.3.1/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="<%= contexto%>/scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/slick-1.8.0/slick/slick.min.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/controle.js"></script>
     </head>
@@ -43,6 +41,7 @@
                 <form method="GET" action="consulta">
                     Data-hora: 
                     <input type="text" size="16" name="data" 
+                           id="caixaBusca"
                            value="${DATABUSCA}"
                            style="font-size:1.05em;text-align:center;"/>
                     <button type="button" style="font-size:1.05em;" onclick="buscar(data.value);">BUSCAR</button>

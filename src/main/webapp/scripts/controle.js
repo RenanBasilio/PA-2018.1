@@ -34,6 +34,17 @@ function doAjax(tipo, data, callback) {
     ajaxRequest.send(null);
 }
 
+function getCurrentDateString() {
+    var currentdate = new Date(); 
+    var datetime = currentdate.getDate() + "/"
+            + (currentdate.getMonth()+1)  + "/" 
+            + currentdate.getFullYear() + " "  
+            + currentdate.getHours() + ":"  
+            + currentdate.getMinutes() + ":" 
+            + currentdate.getSeconds();
+    return datetime;
+}
+
 /**
  * Converte um valor numérico em uma string com n ou mais casas decimais.
  * @param {Numer} value O valor a ser convertido.
@@ -142,7 +153,18 @@ function slickScrollLeft(carrouselId, html) {
 }
 
 function buscar(data) {
-    var respostaJson = doAjax("lookup", data);
+    var respostaJson = doAjax("lookup", data, buscarAfter);
+}
+
+function buscarAfter(respostaJson) {
+    $('#datamed').val(respostaJson.medicoes.datahoraautom);
+    $('#dataobs').val(respostaJson.observacoes.datahoraobs);
+    
+    var htmlMed = buildHtmlMedicao(respostaJson.medicoes);
+    var htmlObs = buildHtmlObservacao(respostaJson.observacoes);
+    
+    slickScrollLeft('.displayMedicao', htmlMed);
+    slickScrollLeft('.displayObservacao', htmlObs);
 }
 
 function proximaMedicao() {
@@ -212,12 +234,12 @@ $(document).ready(function(){
   $('#scrollformControlsJsObservacao')
           .html('<input type="button" value="<" onclick="anteriorObservacao()"/>\n\
                  <input type="button" value=">" onclick="proximaObservacao()"/>');          
-  $('.displayMedicao').slick({
+  $('.displayMedicao').html('<div></div>').slick({
       slidesToShow: 1,
       waitForAnimate: true,
       arrows: false
   });
-  $('.displayObservacao').slick({
+  $('.displayObservacao').html('<div></div>').slick({
       slidesToShow: 1,
       waitForAnimate: true,
       arrows: false
@@ -229,4 +251,7 @@ $(document).ready(function(){
       autoplay: true,
       autoplaySpeed: 2500
   });
+  var datetime = getCurrentDateString();
+  $('.caixaBusca').val(datetime);
+  buscar(datetime);
 });
