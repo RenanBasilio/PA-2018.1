@@ -32,21 +32,21 @@
             <div id="idlista">&nbsp;</div>
 
 
-            <div id="idDivLocal">
-                <br>
-                Local: <span class="classTexto1">Rio de Janeiro, RJ, Brasil - Posto 9</span>
+            <div id="divLocal" class="white-boxed">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local:&nbsp;<span class="classTexto1">Rio de Janeiro, RJ, Brasil - Posto 9</span>
             </div>
-            <div id="idDivDatahora">
-                <br> 
+            <div id="divBusca" class="white-boxed">
                 <form method="GET" action="consulta">
                     Data-hora: 
                     <input type="text" size="16" name="data" 
                            id="caixaBusca"
                            value="${DATABUSCA}"
                            style="font-size:1.05em;text-align:center;"/>
-                    <button type="button" style="font-size:1.05em;" onclick="buscar(data.value);">BUSCAR</button>
+                    <button id="botaoBuscar"
+                            type="button" 
+                            style="font-size:1.05em;" 
+                            onclick="buscar(data.value);">BUSCAR</button>
                 </form>
-                <br>
                 <form id="scrollform" method="POST" action="scroll">
                     <input id='datamed' type="hidden" name="datamed" value="${MEDICAO.datahoraautom}"/>
                     <input id='dataobs' type="hidden" name="dataobs" value="${OBSERVACAO.datahoraobs}"/>
@@ -56,9 +56,9 @@
             <div id="idDiv1">
 
                 <div id="idDivMedAutom" class="shadowBorder">
-                    <span style="line-height:0.9;display:inline">
+                    <span style="line-height:0.9;">
                         MEDIDAS AUTOMÁTICAS
-                        <span id="scrollformControls" style="float:right">
+                        <span id="scrollformControlsMedicao" style="float:right">
                             <noscript>
                             <button type="submit" name="med" value="prev" form="scrollform"><</button>
                             <button type="submit" name="med" value="next" form="scrollform">></button>
@@ -92,7 +92,7 @@
                 <div id="idDivObserv" class="shadowBorder">
                     <span style="line-height:0.9;">
                         OBSERVAÇÕES
-                        <span id="scrollformControls" style="float:right">
+                        <span id="scrollformControlsObservacao" style="float:right">
                             <noscript>
                             <button type="submit" name="obs" value="prev" form="scrollform"><</button>
                             <button type="submit" name="obs" value="next" form="scrollform">></button>
@@ -107,7 +107,7 @@
                     <br>
                     <div id="divObs" class="displayObservacao">
                         <noscript>
-                            <div>
+                            <div class="slide">
                                 Data-hora: <span id="datahoraobs" class="classTexto1">${OBSERVACAO.datahoraobs}</span><br>
                                 Altura das ondas: <span id="altondas" class="classTexto1">${OBSERVACAO.altondas} m</span><br>
                                 Temperatura da água: <span id="tempagua" class="classTexto1">${OBSERVACAO.tempagua} ºC</span><br>

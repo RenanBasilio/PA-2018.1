@@ -21,6 +21,8 @@ body{
     float:left;
     color: blue;
     margin-top: 5px;
+    font-weight: bold;
+    font-style: italic;
 }
 #idDELPOLI{
     width:300px;
@@ -33,42 +35,28 @@ body{
     height:4px;
     background-color:dodgerblue;
 }
+
 #idDiv1{
-    margin-top:20px;
-    margin-bottom: 0;
-    margin-left:auto;
-    margin-right:auto;
+    margin: 10px auto;
     width:70%;
     color: dodgerblue;
     font-weight:bold;
     height:auto;
 }
-#idDivLocal{
+#divLocal{
     text-align:center;
     font-weight:bold;
     color: dodgerblue;
     width: 40%;
     height: 40px;
-    line-height: 0.75;
-    margin: auto;
-    margin-top: 10px;
-    border-radius: 2px;
-    background-color: white;
-    opacity: 0.9;
 }
-#idDivDatahora{
+#divBusca{
     text-align:center;
     font-weight:bold;
     color: dodgerblue;
     width: 40%;
-    height: 60px;
     line-height: 0.75;
     margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    background-color: white;
-    opacity: 0.9;
 }
 #idDivMedAutom{
     float:left;
@@ -85,6 +73,16 @@ body{
 #idDivGraficos{
     float:left;
 }
+
+.white-boxed{
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 2px;
+    padding: 10px;
+    margin: 10px auto;
+    margin-top: 10px;
+}
+
 .shadowBorder{
     position: relative;
     padding:15px;
@@ -95,6 +93,11 @@ body{
     height:350px;
     width:48%;
 }
+
+.slide{
+    height: auto;
+}
+
 .classTexto1{
     color:black;
     font-weight:normal;
@@ -142,11 +145,11 @@ body{
 /* Tooltip text */
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 200px;
+    width: max-content;
     background-color: black;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
+    padding: 3px 5px;
     border-radius: 6px;
 
     /* Position the tooltip text */
@@ -181,3 +184,11 @@ body{
 .slick-prev:before, .slick-next:before { 
     color: dodgerblue !important;
 }
+
+.slick-slider {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+}
+.slick-slide, .slick-slide *{ outline: none !important; }

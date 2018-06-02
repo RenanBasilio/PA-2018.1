@@ -62,6 +62,7 @@ public class AjaxController extends HttpServlet {
                 JsonObject compositeJson = Json.createObjectBuilder()
                         .add("medicoes", medicoes.toJSON())
                         .add("observacoes", observacoes.toJSON())
+                        .add("datahora", date)
                         .build();
                 out.print(compositeJson.toString());
                 break;

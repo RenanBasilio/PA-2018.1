@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+var buscaInicial;
+
 /**
  * Faz um pedido Ajax ao servidor. Utiliza o controlador /ajax? com os 
  * parametros type e date, na convenção:
@@ -76,11 +78,12 @@ function buildHtmlMedicao(jsonMedicao) {
             'Taxa de precipitação: <span id="precipitacao" class="classTexto1">' +
             getDecimalString(jsonMedicao.precipitacao) + ' mm/h</span><br>'+
             'Precipitação acumulada: <span id="precipacumul" class="classTexto1">' +
-            getDecimalString(jsonMedicao.precipacumul) + ' mm</span><br>(últimas 24h)<br>' + 
+            getDecimalString(jsonMedicao.precipacumul) + ' mm</span>' + 
+            '<span class="classSubTexto">&nbsp;&nbsp;(últimas 24h)</span><br>' + 
             'Velocidade do Vento: <span id="velvento" class="classTexto1">' +
             getDecimalString(jsonMedicao.velvento) + ' km/h</span><br>' + 
             'Direção do vento: <span id="dirvento" class="classTexto1">' +
-            getDecimalString(jsonMedicao.dirvento) + '</span><br>' + 
+            getDecimalString(jsonMedicao.dirvento) + '</span><br><br>' + 
         '</div>';
 
     return html;
@@ -93,7 +96,7 @@ function buildHtmlMedicao(jsonMedicao) {
  */
 function buildHtmlObservacao(jsonObservacao) {
     var html =
-        '<div>' +
+        '<div class="slide">' +
             'Data-hora: ' +
             '<span id="datahoraobs" class="classTexto1">' + 
                 jsonObservacao.datahoraobs + '</span><br>' +
@@ -115,7 +118,7 @@ function buildHtmlObservacao(jsonObservacao) {
                     '</span>' +
                 '</div>' + 
             '</span>' +
-            '<br><br><br>'
+            '<br><br><br><br><br>'+
         '</div>';
     return html;
 }
@@ -165,6 +168,15 @@ function buscarAfter(respostaJson) {
     
     slickScrollLeft('.displayMedicao', htmlMed);
     slickScrollLeft('.displayObservacao', htmlObs);
+    
+    if(!buscaInicial) {
+        var uri = 'consulta?data=' + encodeURIComponent(respostaJson.datahora);
+        history.pushState({urlPath: uri}, "", uri);
+    }
+    else { 
+        buscaInicial = false;
+    }
+    $('#databusca').val(respostaJson.datahora);
 }
 
 function proximaMedicao() {
@@ -228,30 +240,42 @@ function anteriorObservacaoAfter(respostaJson) {
 }
 
 $(document).ready(function(){
-  $('#scrollformControlsJsMedicao')
-          .html('<input type="button" value="<" onclick="anteriorMedicao()"/>\n\
-                 <input type="button" value=">" onclick="proximaMedicao()"/>');
-  $('#scrollformControlsJsObservacao')
-          .html('<input type="button" value="<" onclick="anteriorObservacao()"/>\n\
-                 <input type="button" value=">" onclick="proximaObservacao()"/>');          
-  $('.displayMedicao').html('<div></div>').slick({
-      slidesToShow: 1,
-      waitForAnimate: true,
-      arrows: false
-  });
-  $('.displayObservacao').html('<div></div>').slick({
-      slidesToShow: 1,
-      waitForAnimate: true,
-      arrows: false
-  });
-  $('.divFotos').slick({
-      adaptativeHeight: true,
-      slidesToShow: 1,
-      dots: true,
-      autoplay: true,
-      autoplaySpeed: 2500
-  });
-  var datetime = getCurrentDateString();
-  $('.caixaBusca').val(datetime);
-  buscar(datetime);
+    $('#scrollformControlsJsMedicao')
+            .html('<input type="button" value="<" onclick="anteriorMedicao()"/>\n\
+                   <input type="button" value=">" onclick="proximaMedicao()"/>');
+    $('#scrollformControlsJsObservacao')
+            .html('<input type="button" value="<" onclick="anteriorObservacao()"/>\n\
+                   <input type="button" value=">" onclick="proximaObservacao()"/>');          
+    $('.displayMedicao').html('<div class="slide"></div>').slick({
+        slidesToShow: 1,
+        waitForAnimate: true,
+        arrows: false,
+        draggable: false
+    });
+    $('.displayObservacao').html('<div class="slide"></div>').slick({
+        slidesToShow: 1,
+        waitForAnimate: true,
+        arrows: false,
+        draggable: false
+    });
+    $('.divFotos').slick({
+        adaptativeHeight: true,
+        slidesToShow: 1,
+        dots: true,
+        autoplay: true,
+        autoplaySpeed: 2500
+    });
+    if( window.location.pathname === '/TempoClimaNet/') {
+        buscaInicial = true;
+        var datetime = getCurrentDateString();
+        $('#caixaBusca').val(datetime);
+        buscar(datetime);
+    }
+    else {
+        var pathname = window.location.href;
+        var datetime = pathname.substring(pathname.indexOf('data=')+5, pathname.length);
+        var querydate = decodeURIComponent(datetime).replace('+', ' ');
+        $('#caixaBusca').val(querydate);
+        buscar(querydate);
+    }
 });
