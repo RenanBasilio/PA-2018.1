@@ -65,24 +65,24 @@ function getDecimalString(value, deciPlaces) {
 function buildHtmlMedicao(jsonMedicao) {
     var html = 
         '<div>' +
-            'Data-hora: <span class="classTexto1">' + 
+            'Data-hora: <span name="datahoraautom" class="texto">' + 
             jsonMedicao.datahoraautom + ' </span><br>' +
-            'Temperatura: <span class="classTexto1">' +
+            'Temperatura: <span name="temperatura" class="texto">' +
             getDecimalString(jsonMedicao.temperatura) + ' ºC </span><br>' +
-            'Umidade: <span id="umidade" class="classTexto1">' +
+            'Umidade: <span name="umidade" class="texto">' +
             getDecimalString(jsonMedicao.umidade) + ' %</span><br>' +
-            'Ponto de orvalho: <span id="orvalho" class="classTexto1">' + 
+            'Ponto de orvalho: <span name="orvalho" class="texto">' + 
             getDecimalString(jsonMedicao.orvalho) + ' ºC</span><br>' +
-            'Pressão atmosférica: <span id="pressao" class="classTexto1">' +
+            'Pressão atmosférica: <span name="pressao" class="texto">' +
             getDecimalString(jsonMedicao.pressao) + ' hPa</span><br>' +
-            'Taxa de precipitação: <span id="precipitacao" class="classTexto1">' +
+            'Taxa de precipitação: <span name="precipitacao" class="texto">' +
             getDecimalString(jsonMedicao.precipitacao) + ' mm/h</span><br>'+
-            'Precipitação acumulada: <span id="precipacumul" class="classTexto1">' +
+            'Precipitação acumulada: <span name="precipacumul" class="texto">' +
             getDecimalString(jsonMedicao.precipacumul) + ' mm</span>' + 
-            '<span class="classSubTexto">&nbsp;&nbsp;(últimas 24h)</span><br>' + 
-            'Velocidade do Vento: <span id="velvento" class="classTexto1">' +
+            '<span class="sub-texto">&nbsp;&nbsp;(últimas 24h)</span><br>' + 
+            'Velocidade do Vento: <span name="velvento" class="texto">' +
             getDecimalString(jsonMedicao.velvento) + ' km/h</span><br>' + 
-            'Direção do vento: <span id="dirvento" class="classTexto1">' +
+            'Direção do vento: <span name="dirvento" class="texto">' +
             getDecimalString(jsonMedicao.dirvento) + '</span><br><br>' + 
         '</div>';
 
@@ -98,18 +98,18 @@ function buildHtmlObservacao(jsonObservacao) {
     var html =
         '<div class="slide">' +
             'Data-hora: ' +
-            '<span id="datahoraobs" class="classTexto1">' + 
+            '<span name="datahoraobs" class="texto">' + 
                 jsonObservacao.datahoraobs + '</span><br>' +
             'Altura das ondas: ' +
-            '<span id="altondas" class="classTexto1">' +
+            '<span name="altondas" class="texto">' +
                 getDecimalString(jsonObservacao.altondas, 1) +
                 ' m</span><br>' +
             'Temperatura da água: ' +
-            '<span id="tempagua" class="classTexto1">' +
+            '<span name="tempagua" class="texto">' +
                 getDecimalString(jsonObservacao.tempagua, 1) +
                 ' ºC</span><br>' +
             'Bandeira: ' +
-            '<span id="bandsalvavidas" style="color:' + 
+            '<span name="bandsalvavidas" style="color:' + 
             jsonObservacao.bandeira.cor + '; font-weight:bold;">' +
                 '<div class="tooltip">' +
                     jsonObservacao.bandeira.nome +
@@ -240,12 +240,13 @@ function anteriorObservacaoAfter(respostaJson) {
 }
 
 $(document).ready(function(){
-    $('#scrollformControlsJsMedicao')
+    $('#scrollformControlsMedicao')
             .html('<input type="button" value="<" onclick="anteriorMedicao()"/>\n\
                    <input type="button" value=">" onclick="proximaMedicao()"/>');
-    $('#scrollformControlsJsObservacao')
+    $('#scrollformControlsObservacao')
             .html('<input type="button" value="<" onclick="anteriorObservacao()"/>\n\
-                   <input type="button" value=">" onclick="proximaObservacao()"/>');          
+                   <input type="button" value=">" onclick="proximaObservacao()"/>');     
+    $('#botaoBuscar').prop("type", "button");
     $('.displayMedicao').html('<div class="slide"></div>').slick({
         slidesToShow: 1,
         waitForAnimate: true,
@@ -258,7 +259,7 @@ $(document).ready(function(){
         arrows: false,
         draggable: false
     });
-    $('.divFotos').slick({
+    $('.displayFotos').slick({
         adaptativeHeight: true,
         slidesToShow: 1,
         dots: true,

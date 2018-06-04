@@ -1,117 +1,47 @@
 * {
     box-sizing:border-box;
 }
+
+/* Escala fonte baseado no tamanho do viewport.
+   Fonte: https://css-tricks.com/snippets/css/fluid-typography/ */
+html {
+  font-size: 16px;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+  }
+}
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 22px;
+  }
+}
+/* Fim do código retirado da internet. */
+
 body{
     margin:0;
     padding:0;
     overflow-x: hidden;
     overflow-y: auto;
     font-family: "Lato", sans-serif; 
-    font-size: 16pt;
     background-color:#efefef;
 }
 
-#idHeader{
-    height:35px;
-    background-color:white;
-}
-#idNomeSite{
-    width:200px;
-    text-align:center;
-    float:left;
-    color: blue;
-    margin-top: 5px;
-    font-weight: bold;
-    font-style: italic;
-}
-#idDELPOLI{
-    width:300px;
-    text-align:center;
-    float:right;
-    color:black;
-    margin-top: 5px;
-}
-#idlista{
-    height:4px;
-    background-color:dodgerblue;
-}
-
-#idDiv1{
-    margin: 10px auto;
-    width:70%;
-    color: dodgerblue;
-    font-weight:bold;
-    height:auto;
-}
-#divLocal{
-    text-align:center;
-    font-weight:bold;
-    color: dodgerblue;
-    width: 40%;
-    height: 40px;
-}
-#divBusca{
-    text-align:center;
-    font-weight:bold;
-    color: dodgerblue;
-    width: 40%;
-    line-height: 0.75;
-    margin: auto;
-}
-#idDivMedAutom{
-    float:left;
-    margin-left:auto;
-}
-#idDivObserv{
-    float:left;
-}
-#idDivFotos{
-    clear:left;
-    float:left;
-    margin-left:auto;
-}
-#idDivGraficos{
-    float:left;
-}
-
-.white-boxed{
-    background-color: white;
-    opacity: 0.9;
-    border-radius: 2px;
-    padding: 10px;
-    margin: 10px auto;
-    margin-top: 10px;
-}
-
-.shadowBorder{
-    position: relative;
-    padding:15px;
-    margin:10px;
-    border:1px solid lightgray;
-    box-shadow: 3px 5px 10px #888888;
-    background-color:white;
-    height:350px;
-    width:48%;
-}
-
-.slide{
-    height: auto;
-}
-
-.classTexto1{
+/* Padrões básicos */
+.texto{
     color:black;
     font-weight:normal;
 }
-.classSubTexto{
-    font-size:14px;
-    color:grey;
+.sub-texto{
+    font-weight: normal;
+    font-size:0.75em;
+    color:slategray;
 }
-
 .bottom-align{
     position: absolute;
     bottom: 0;
 }
-
 .center-justify {
     width: 70%;
     position: relative;
@@ -120,11 +50,95 @@ body{
     text-align-last: center;
 }
 
+/* Barra do cabeçalho */
+#header{
+    height:1.7em;
+    background-color:white;
+    border-bottom: 4px solid dodgerblue;
+    padding: 0.2em;
+}
+#nomeSite{
+    width:20%;
+    text-align:left;
+    float:left;
+    color: blue;
+    font-weight: bold;
+    font-style: italic;
+}
+#DELPOLI{
+    width:60%;
+    text-align:right;
+    float:right;
+    color:black;
+}
+
+/* Caixas de Local e Busca */
+.white-box{
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 2px;
+    padding: 0.3em 1em;
+    margin: 0.5em auto;
+    width: 24em;
+    max-width: 90%;
+    height: auto;
+}
+.label{
+    text-align:center;
+    font-weight:bold;
+    color: dodgerblue;
+}
+.search-box {
+    font-size:1.05em;
+    text-align:center;
+    margin-bottom: 0.2em;
+}
+.botao-buscar{
+    font-size: 1.05em;
+    font-weight: normal;
+}
+
+/* Área principal */
+#mainDiv{
+    color: dodgerblue;
+    font-weight:bold;
+    height:auto;
+    margin-bottom: 2em;
+}
 .flex-container{
-    /*display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;*/
+    width: 90%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: space-around;
+    align-items: baseline;
+    margin: auto;
+}
+
+/* Cartões de display */
+.flex-child{
+    width: 22em;
+    height: 16em;
+    margin: 0.4em;
+}
+.shadow-border{
+    position: relative;
+    padding:0.75em;
+    border:1px solid lightgray;
+    box-shadow: 3px 5px 10px #888888;
+    background-color:white;
+    max-width: 100%;
+    height: 16em;
+}
+.scroll-controls{
+    float: right;
+}
+.scroll-controls input, button{
+    font-size: 1.05em;
+    font-weight: bold;
+}
+.slide{
+    height: auto;
 }
 .meia-caixa{
     max-height: 100%;
@@ -135,12 +149,13 @@ body{
     margin-left:auto;
     margin-right:auto;
 }
-.divFotos{
+.displayFotos{
     max-width:75%;
     margin: 1.5% auto;
 }
 
-/* Tooltip container */
+/* Tooltip do significado da bandeira de guarda-vidas.
+   Fonte: https://www.w3schools.com/css/css_tooltip.asp */
 .tooltip {
     position: relative;
     display: inline-block;
@@ -185,15 +200,21 @@ body{
     visibility: visible;
     opacity: 1;
 }
+/* Fim do código retirado da internet. */
 
+/* Overrides do tema do slick */
 .slick-prev:before, .slick-next:before { 
     color: dodgerblue !important;
 }
 
 .slick-slider {
+    /* Permite que o texto do slide seja selecionado. */
     -webkit-user-select: text !important;
     -moz-user-select: text !important;
     -ms-user-select: text !important;
     user-select: text !important;
 }
-.slick-slide, .slick-slide *{ outline: none !important; }
+.slick-slide, .slick-slide *{ 
+    /* Disabilita outline quando o slide estiver selecionado. */
+    outline: none !important; 
+}
