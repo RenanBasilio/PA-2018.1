@@ -139,7 +139,9 @@
 
             <div id="idDivGraficos" class="flex-child shadow-border">
                 GRÁFICOS<br>
-                <img class="caixa-inteira" src="<%= contexto%>/resources/img/grafico.temper.png"/>
+                <div id="divGraficos" class="displayGraficos">
+                    <img class="caixa-inteira" src="<%= contexto%>/resources/img/grafico.temper.png"/>
+                </div>
             </div>
         </div>
     </body>

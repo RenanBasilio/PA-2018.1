@@ -83,7 +83,7 @@ function buildHtmlMedicao(jsonMedicao) {
             'Velocidade do Vento: <span name="velvento" class="texto">' +
             getDecimalString(jsonMedicao.velvento) + ' km/h</span><br>' + 
             'Direção do vento: <span name="dirvento" class="texto">' +
-            getDecimalString(jsonMedicao.dirvento) + '</span><br><br>' + 
+            getDecimalString(jsonMedicao.dirvento) + '</span><br>' + 
         '</div>';
 
     return html;
@@ -241,11 +241,11 @@ function anteriorObservacaoAfter(respostaJson) {
 
 $(document).ready(function(){
     $('#scrollformControlsMedicao')
-            .html('<input type="button" value="&#9664;" onclick="anteriorMedicao()"/>\n\
-                   <input type="button" value="&#9654;" onclick="proximaMedicao()"/>');
+            .html('<button type="button" onclick="anteriorMedicao()">&#9664;</button>\n\
+                   <button type="button" onclick="proximaMedicao()">&#9654;</button>');
     $('#scrollformControlsObservacao')
-            .html('<input type="button" value="&#9664;" onclick="anteriorObservacao()"/>\n\
-                   <input type="button" value="&#9654;" onclick="proximaObservacao()"/>');     
+            .html('<button type="button" onclick="anteriorObservacao()">&#9664;</button>\n\
+                   <button type="button" onclick="proximaObservacao()">&#9654;</button>');     
     $('#botaoBuscar').prop("type", "button");
     $('.displayMedicao').html('<div class="slide"></div>').slick({
         slidesToShow: 1,
