@@ -128,14 +128,14 @@ body{
     box-shadow: 3px 5px 10px #888888;
     background-color:white;
     max-width: 100%;
-    height: 16em;
 }
 .scroll-controls{
     float: right;
 }
-.scroll-controls input, button{
+.scroll-controls input, scroll-controls button{
     font-size: 1.05em;
     font-weight: bold;
+    color: blue;
 }
 .slide{
     height: auto;

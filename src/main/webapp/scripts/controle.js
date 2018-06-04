@@ -241,11 +241,11 @@ function anteriorObservacaoAfter(respostaJson) {
 
 $(document).ready(function(){
     $('#scrollformControlsMedicao')
-            .html('<input type="button" value="<" onclick="anteriorMedicao()"/>\n\
-                   <input type="button" value=">" onclick="proximaMedicao()"/>');
+            .html('<input type="button" value="&#9664;" onclick="anteriorMedicao()"/>\n\
+                   <input type="button" value="&#9654;" onclick="proximaMedicao()"/>');
     $('#scrollformControlsObservacao')
-            .html('<input type="button" value="<" onclick="anteriorObservacao()"/>\n\
-                   <input type="button" value=">" onclick="proximaObservacao()"/>');     
+            .html('<input type="button" value="&#9664;" onclick="anteriorObservacao()"/>\n\
+                   <input type="button" value="&#9654;" onclick="proximaObservacao()"/>');     
     $('#botaoBuscar').prop("type", "button");
     $('.displayMedicao').html('<div class="slide"></div>').slick({
         slidesToShow: 1,

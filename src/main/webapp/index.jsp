@@ -57,8 +57,8 @@
                     MEDIDAS AUTOMÁTICAS
                     <span id="scrollformControlsMedicao" class="scroll-controls">
                         <noscript>
-                        <button type="submit" name="med" value="prev" form="scrollform"><</button>
-                        <button type="submit" name="med" value="next" form="scrollform">></button>
+                        <button type="submit" name="med" value="prev" form="scrollform">&#9664;;</button>
+                        <button type="submit" name="med" value="next" form="scrollform">&#9654;</button>
                         </noscript>
                     </span>
                     <br>
@@ -89,8 +89,8 @@
                     OBSERVAÇÕES
                     <span id="scrollformControlsObservacao" class="scroll-controls">
                         <noscript>
-                        <button type="submit" name="obs" value="prev" form="scrollform"><</button>
-                        <button type="submit" name="obs" value="next" form="scrollform">></button>
+                        <button type="submit" name="obs" value="prev" form="scrollform">&#9664;</button>
+                        <button type="submit" name="obs" value="next" form="scrollform">&#9654;</button>
                         </noscript>
                     </span>
                     <br>
