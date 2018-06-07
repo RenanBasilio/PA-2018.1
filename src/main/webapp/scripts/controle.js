@@ -266,14 +266,17 @@ $(document).ready(function(){
         autoplay: true,
         autoplaySpeed: 2500
     });
-    if( window.location.pathname === '/TempoClimaNet/') {
+
+    var pathname = window.location.href;
+
+    // Se isso for -1 então não é uma consulta. Portanto gera uma nova data.
+    if(pathname.indexOf('consulta') === -1) {
         buscaInicial = true;
         var datetime = getCurrentDateString();
         $('#caixaBusca').val(datetime);
         buscar(datetime);
     }
     else {
-        var pathname = window.location.href;
         var datetime = pathname.substring(pathname.indexOf('data=')+5, pathname.length);
         var querydate = decodeURIComponent(datetime).replace('+', ' ');
         $('#caixaBusca').val(querydate);
