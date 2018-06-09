@@ -57,7 +57,7 @@
                     MEDIDAS AUTOMÁTICAS
                     <span id="scrollformControlsMedicao" class="scroll-controls">
                         <noscript>
-                        <button type="submit" name="med" value="prev" form="scrollform">&#9664;;</button>
+                        <button type="submit" name="med" value="prev" form="scrollform">&#9664;</button>
                         <button type="submit" name="med" value="next" form="scrollform">&#9654;</button>
                         </noscript>
                     </span>
