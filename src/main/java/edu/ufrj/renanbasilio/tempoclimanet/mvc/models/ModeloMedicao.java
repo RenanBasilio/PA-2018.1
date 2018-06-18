@@ -330,7 +330,7 @@ public class ModeloMedicao {
      * @return O objeto JSON criado.
      */
     public JsonObject toJSON() {
-        if(!isLoaded()) return JsonObject.EMPTY_JSON_OBJECT;
+        if(!isLoaded()) return Json.createObjectBuilder().build();
         
         /**
          * O objeto JSON é armazenado em uma variável interna de forma que não
