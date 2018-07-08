@@ -1,7 +1,7 @@
 <%@page import="java.net.URL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% URL contexto = new URL(
-            "http",
+            request.getScheme(),
             request.getServerName(),
             request.getServerPort(),
             request.getContextPath());%>
