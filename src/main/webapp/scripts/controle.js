@@ -21,10 +21,17 @@ var buscaInicial;
  * @param {function} callback Um método a ser chamado quando o pedido retornar.
  */
 function doAjax(tipo, data, callback) {
-    var url = "http://localhost:8080/TempoClimaNet/ajax?type=" + tipo + "&date=" + data;
+    //var url = "http://localhost:8080/TempoClimaNet/ajax?type=" + tipo + "&date=" + data;
+    var content = JSON.stringify({
+        "type":tipo,
+        "date":data
+    });
     var ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open("GET", url);
-    ajaxRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    
+    //ajaxRequest.open("GET", url);
+    //ajaxRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    ajaxRequest.open("POST", "ajax");
+    ajaxRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     
     ajaxRequest.onreadystatechange = function() {
         if(ajaxRequest.readyState===4 && ajaxRequest.status===200){
@@ -33,7 +40,8 @@ function doAjax(tipo, data, callback) {
         }
     };
     
-    ajaxRequest.send(null);
+    //ajaxRequest.send(null);
+    ajaxRequest.send(content);
 }
 
 function getCurrentDateString() {
