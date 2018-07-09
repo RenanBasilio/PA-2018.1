@@ -59,7 +59,7 @@ body{
     padding: 0.2em;
 }
 #nomeSite{
-    width:20%;
+    width:40%;
     text-align:left;
     float:left;
     color: blue;
@@ -67,7 +67,7 @@ body{
     font-style: italic;
 }
 #DELPOLI{
-    width:60%;
+    width:40%;
     text-align:right;
     float:right;
     color:black;

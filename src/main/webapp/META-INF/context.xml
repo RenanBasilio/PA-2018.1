@@ -1,2 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/TempoClimaNet"/>
+<Context path="/TempoClimaNet">
+    <Realm 
+        name="PortalObservador"
+        className="org.apache.catalina.realm.DataSourceRealm" 
+        dataSourceName="jdbc/authority" 
+        localDataSource="true" 
+        roleNameCol="grupo" 
+        userCredCol="senha" 
+        userNameCol="usuario" 
+        userRoleTable="grupos" 
+        userTable="usuarios"
+    />     
+  
+    <Resource 
+        name="jdbc/authority" 
+        auth="Container" 
+        driverClassName="org.postgresql.Driver" 
+        logAbandoned="false" 
+        maxActive="50" 
+        maxIdle="20" 
+        maxWait="-1" 
+        password="admin" 
+        removeAbandoned="true" 
+        removeAbandonedTimeout="60" 
+        type="javax.sql.DataSource" 
+        url="jdbc:postgresql://127.0.0.1:5432/usuariossenhas" 
+        username="postgres"
+    />
+</Context>

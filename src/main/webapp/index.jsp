@@ -28,7 +28,6 @@
             <div id="nomeSite">TempoClimaNET</div>
             <div id="DELPOLI">EEL418 / DEL / POLI / UFRJ</div>
         </div>
-
         <div id="local" class="white-box label">
             &nbsp;&nbsp;&nbsp;&nbsp;
             Local: <span class="texto">Rio de Janeiro, RJ, Brasil - Posto 9</span>
@@ -144,5 +143,7 @@
                 </div>
             </div>
         </div>
+        <div class="white-box label">Observador? <a href="<%= contexto%>/portal">Faça Login Aquí</a></div
+        <br><br>
     </body>
 </html>
