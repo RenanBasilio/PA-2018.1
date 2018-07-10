@@ -10,6 +10,8 @@ import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloMedicao;
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -74,6 +76,12 @@ public class ScrollHandler implements IFHandler{
         else {
             medicoes = new ModeloMedicao();
             observacoes = new ModeloObservacao();
+        }
+        
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ScrollHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // Seta os atributos MEDICAO e OBSERVACAO do pedido com os modelos

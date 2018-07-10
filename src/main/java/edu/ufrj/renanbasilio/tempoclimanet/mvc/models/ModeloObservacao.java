@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -35,7 +36,7 @@ public class ModeloObservacao {
         verm("Vermelha", "Mar perigoso." ,"red"),
         pret("Preta", "Não entre, risco de morte.", "black"),
         azul("Azul", "Pessoa encontrada.", "blue"),
-        roxo("Roxo", "Atenção, animais marinhos.", "purple"),
+        roxo("Roxa", "Atenção, animais marinhos.", "purple"),
         unkn("Desconhecida", "Não há bandeira disponível.", "gray");
 
         private final String nome;
@@ -88,6 +89,15 @@ public class ModeloObservacao {
         return datahoraobs;
     }
 
+    /**
+     * Seta a data e hora desta observação, formatada como uma string no formato
+     * 'dd/MM/yyyy HH:mm:ss'.
+     * @param datahora A string de data e hora, no formato 'dd/MM/yyyy HH:mm:ss'
+     */
+    public void setDatahoraobs(String datahora) {
+        this.datahoraobs = datahora;
+    }
+    
     /**
      * Seta a data e hora desta observação, formatada como uma string no formato
      * 'dd/MM/yyyy HH:mm:ss'.
@@ -275,6 +285,25 @@ public class ModeloObservacao {
             System.out.println("Failed to load from DB: " + ex);
         }
         return observacoes;
+    }
+    
+    public void commitToDB(Connection conn) throws SQLException, ParseException {
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        java.util.Date utildate = formatter.parse(this.datahoraobs);
+        
+        PreparedStatement statement = conn.prepareStatement( 
+                "INSERT INTO observacoes(" + 
+                        "datahoraobservacao, alturaondas, temperaturaagua, bandeira)" +
+                        "VALUES ("+
+                        "?, ?, ?, ?);");
+        
+        statement.setTimestamp(1, new java.sql.Timestamp(utildate.getTime()));
+        statement.setFloat(2, altondas);
+        statement.setFloat(3, tempagua);
+        statement.setString(4, bandeira.toString());
+        
+        statement.executeUpdate();
     }
     
     /**

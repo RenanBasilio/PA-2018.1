@@ -8,13 +8,19 @@ package edu.ufrj.renanbasilio.tempoclimanet.mvc;
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  *
@@ -40,19 +46,52 @@ public class PortalController extends HttpServlet {
 
     protected void processSubmit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                ModeloObservacao observacao = new ModeloObservacao();
+                
+        ModeloObservacao observacao = new ModeloObservacao();
         
         if(request.getContentType().contains("application/json")) {
             JsonReader rd = Json.createReader(new InputStreamReader(request.getInputStream()));
             JsonObject requestObject = rd.readObject();
-            observacao.setAltondas(
-                    Float.valueOf(requestObject.getString("altOndas")));
-            observacao.setTempagua(
-                    Float.valueOf(requestObject.getString("tempAgua")));
-            observacao.setBandeira(
-                    ModeloObservacao.Bandeira.valueOf(
-                            requestObject.getString("bandeira")));
-            System.out.println(observacao.toJSON().toString());
+            
+            JsonObject returnObject = null;
+            
+            try {
+                String str;
+                
+                observacao.setDatahoraobs(
+                        requestObject.getString("datahoraObs"));
+                observacao.setBandeira(
+                        ModeloObservacao.Bandeira.valueOf(
+                                requestObject.getString("bandeira")));
+                
+                str = requestObject.getString("altOndas");
+                if (!str.isEmpty()) observacao.setAltondas(Float.valueOf(str));
+                str = requestObject.getString("tempAgua");
+                if (!str.isEmpty()) observacao.setTempagua(Float.valueOf(str));
+                
+                Connection conn = ((DataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
+
+                observacao.commitToDB(conn);
+
+                conn.close();
+                
+                returnObject = Json.createObjectBuilder()
+                        .add("status", "succeeded")
+                        .build();
+                
+            }
+            catch (NumberFormatException | SQLException | ParseException ex) {
+                
+                returnObject = Json.createObjectBuilder()
+                        .add("status", "failed")
+                        .add("error", ex.getMessage())
+                        .build();
+            }
+            finally {
+                PrintWriter out = response.getWriter();
+                out.print(returnObject.toString());
+                out.flush();
+            }
         }
         else {
             response.setStatus(400);

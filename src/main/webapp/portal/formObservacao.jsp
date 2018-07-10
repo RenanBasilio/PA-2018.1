@@ -26,6 +26,11 @@
             <div id="DELPOLI">EEL418 / DEL / POLI / UFRJ</div>
         </div>
         <br><br>
+        <div id="displayResultado" class="white-box center-justify texto" 
+             style="background-color: whitesmoke; visibility: hidden;"> 
+            Falhou 
+        </div>
+        <br>
         <div id="mainDiv" class="flex-container">
             <div id="divForm" class="shadow-border flex-child center-justify">
                 <div style="float: right">
@@ -36,7 +41,7 @@
                     <br>
                     <br>
                     <br>
-                    <input type="text" style="width: 90%; font-size: 1.5em; font-weight: bold;" class="texto" id="dataHoraObs" disabled>
+                    <input type="text" style="width: 90%; font-size: 1.5em; font-weight: bold;" class="texto" id="datahoraObs" disabled>
                     <br>
                     <br>
                     <table class="center-justify texto" style="width: 95%">

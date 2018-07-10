@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +61,11 @@ public class IndexHandler implements IFHandler {
             observacoes = ModeloObservacao.fromDB(conn, dataBusca);
         }
         
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(IndexHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         // Seta os atributos MEDICAO e OBSERVACAO do pedido com os modelos
         // inicializados.

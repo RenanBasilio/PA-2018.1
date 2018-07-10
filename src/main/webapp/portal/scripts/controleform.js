@@ -3,7 +3,7 @@ function submit() {
     
     //var url = "http://localhost:8080/TempoClimaNet/ajax?type=" + tipo + "&date=" + data;
     var content = JSON.stringify({
-        "dataHoraObs":$("#dataHoraObs").val(),
+        "datahoraObs":$("#datahoraObs").val(),
         "altOndas":$("#altOndas").val(),
         "tempAgua":$("#tempAgua").val(),
         "bandeira":translateColor($("#bandeira").spectrum("get").toName())
@@ -47,27 +47,37 @@ function translateColor(name) {
 }
 
 function showResult(result) {
-    
+    var text;
+    switch(result.status) {
+        case "succeeded":
+            text = "Observação submetida com sucesso.";
+            color = "#62c462";
+            break;
+        case "failed":
+            text = "Falha ao submeter observação (" + result.error + ")";
+            color = "#EE5757";
+            break;
+    }
+    $("#displayResultado")
+            .text(text)
+            .css("background-color", color)
+            .css("visibility", "visible");
 }
 
 function updateCurrentTime() {
-    $("#dataHoraObs").val(getCurrentDateString());
+    $("#datahoraObs").val(getCurrentDateString());
 }
 
 $(document).ready(function(){
-    let spec = $("#bandeira").spectrum({
+    $("#bandeira").spectrum({
         color: "green",    
         showPaletteOnly: true,
-        change: function(color) {
-            printColor(color);
-        },
+        showPalette: true,
+        hideAfterPaletteSelect:true,
         palette: [
             ["green", "yellow", "red", "black", "blue", "purple" ]
         ]
-    });
-    
-    
-    spec.on("show.spectrum", (e) => {
+    }).on("show.spectrum", (e) => {
        $("span[title='rgb(0, 128, 0)']").attr("title", "Verde");
        $("span[title='rgb(255, 255, 0)']").attr("title", "Amarela");
        $("span[title='rgb(255, 0, 0)']").attr("title", "Vermelha");
