@@ -44,17 +44,6 @@ function doAjax(tipo, data, callback) {
     ajaxRequest.send(content);
 }
 
-function getCurrentDateString() {
-    var currentdate = new Date(); 
-    var datetime = currentdate.getDate() + "/"
-            + (currentdate.getMonth()+1)  + "/" 
-            + currentdate.getFullYear() + " "  
-            + currentdate.getHours() + ":"  
-            + currentdate.getMinutes() + ":" 
-            + currentdate.getSeconds();
-    return datetime;
-}
-
 /**
  * Converte um valor numérico em uma string com n ou mais casas decimais.
  * @param {Numer} value O valor a ser convertido.

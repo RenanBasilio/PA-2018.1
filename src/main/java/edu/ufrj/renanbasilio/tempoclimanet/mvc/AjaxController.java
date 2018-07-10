@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
@@ -20,7 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.postgresql.ds.PGConnectionPoolDataSource;
 
 /**
  * Servlet que lida com pedidos realizados através do Ajax.
@@ -59,7 +59,7 @@ public class AjaxController extends HttpServlet {
         
         Connection conn;
         try {
-            conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
+            conn = ((DataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
         } catch (SQLException e1) {
             e1.printStackTrace();
             throw new ServletException("Failed to get connection to database.");

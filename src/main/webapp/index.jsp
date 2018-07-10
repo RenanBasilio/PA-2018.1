@@ -20,6 +20,7 @@
 
         <script type="text/javascript" src="<%= contexto%>/scripts/jquery-3.3.1/dist/jquery.min.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/slick-1.8.0/slick/slick.min.js"></script>
+        <script type="text/javascript" src="<%= contexto%>/scripts/util.js"></script>
         <script type="text/javascript" src="<%= contexto%>/scripts/controle.js"></script>
     </head>
 

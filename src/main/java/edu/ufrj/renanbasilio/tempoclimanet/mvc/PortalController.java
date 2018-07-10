@@ -5,10 +5,13 @@
  */
 package edu.ufrj.renanbasilio.tempoclimanet.mvc;
 
+import edu.ufrj.renanbasilio.tempoclimanet.mvc.models.ModeloObservacao;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStreamReader;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author renan
  */
-@WebServlet(name = "PortalController", urlPatterns = {"/portal"})
 public class PortalController extends HttpServlet {
 
     /**
@@ -31,22 +33,32 @@ public class PortalController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PortalController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PortalController at " + request.getContextPath() + "</h1>");
-            out.println("<a href=\"" + request.getContextPath() + "/logout\">Logout</button>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.getRequestDispatcher("portal/formObservacao.jsp").forward(request, response);
     }
 
+    protected void processSubmit(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                ModeloObservacao observacao = new ModeloObservacao();
+        
+        if(request.getContentType().contains("application/json")) {
+            JsonReader rd = Json.createReader(new InputStreamReader(request.getInputStream()));
+            JsonObject requestObject = rd.readObject();
+            observacao.setAltondas(
+                    Float.valueOf(requestObject.getString("altOndas")));
+            observacao.setTempagua(
+                    Float.valueOf(requestObject.getString("tempAgua")));
+            observacao.setBandeira(
+                    ModeloObservacao.Bandeira.valueOf(
+                            requestObject.getString("bandeira")));
+            System.out.println(observacao.toJSON().toString());
+        }
+        else {
+            response.setStatus(400);
+        }
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -73,7 +85,7 @@ public class PortalController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processSubmit(request, response);
     }
 
     /**

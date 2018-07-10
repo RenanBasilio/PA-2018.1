@@ -7,12 +7,15 @@ package edu.ufrj.renanbasilio.tempoclimanet.mvc;
 
 import edu.ufrj.renanbasilio.tempoclimanet.mvc.pagehandlers.IFHandler;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.postgresql.ds.PGConnectionPoolDataSource;
+import javax.sql.DataSource;
 
 /**
  * Servlet que lida com consultas ao banco de dados na página principal.
@@ -29,12 +32,12 @@ public class SearchController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         if(PoolManager.getInstance().getPool("tempoclimanet") == null){
-            PGConnectionPoolDataSource pool = (PGConnectionPoolDataSource) PoolManager.getInstance().addPostgres("tempoclimanet");
-            pool.setServerName("localhost");
-            pool.setDatabaseName("tempoclimanet");
-            pool.setPortNumber(5432);
-            pool.setUser("postgres");
-            pool.setPassword("admin");
+            try {
+                Class.forName("org.postgresql.Driver");
+                PoolManager.getInstance().addPool("tempoclimanet", (DataSource) InitialContext.doLookup("java:comp/env/jdbc/tempoclimanet"));
+            } catch (ClassNotFoundException | NamingException ex) {
+                Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -64,6 +67,7 @@ public class SearchController extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("EXCESSAO_CONTROLLER", e);
             request.getRequestDispatcher("/erro.jsp").forward(request, response);
+            e.printStackTrace();
         }
     }
 

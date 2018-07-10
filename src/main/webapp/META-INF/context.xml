@@ -20,11 +20,27 @@
         maxActive="50" 
         maxIdle="20" 
         maxWait="-1" 
+        username="postgres"
         password="admin" 
         removeAbandoned="true" 
         removeAbandonedTimeout="60" 
         type="javax.sql.DataSource" 
         url="jdbc:postgresql://127.0.0.1:5432/usuariossenhas" 
+    />
+    
+    <Resource
+        name="jdbc/tempoclimanet"
+        auth="Container"
+        driverClassName="org.postgresql.Driver"
+        logAbandoned="false"
+        maxActive="50"
+        maxIdle="20"
+        maxWait="-1"
         username="postgres"
+        password="admin"
+        removeAbandoned="true"
+        removeAbandonedTimeout="60"
+        type="javax.sql.DataSource"
+        url="jdbc:postgresql://127.0.0.1:5432/tempoclimanet"
     />
 </Context>

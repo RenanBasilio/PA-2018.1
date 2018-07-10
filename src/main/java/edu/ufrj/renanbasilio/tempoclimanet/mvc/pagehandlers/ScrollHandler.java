@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.postgresql.ds.PGConnectionPoolDataSource;
+import javax.sql.DataSource;
 
 /**
  *
@@ -32,7 +32,7 @@ public class ScrollHandler implements IFHandler{
         
         Connection conn;
         try {
-            conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
+            conn = ((DataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
         } catch (SQLException e1) {
             e1.printStackTrace();
             return pagina;

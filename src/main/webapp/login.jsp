@@ -31,14 +31,14 @@
                     <span>Login</span>
                     <br>
                     <br>
-                    <table class="center-justify">
+                    <table class="center-justify texto">
                         <tr>
-                            <td><span class="texto">Usuário</span></th>
-                            <td><input type="text" class="texto" name="j_username"></th>
+                            <td style="text-align-last: right"><span class="texto">Usuário</span></td>
+                            <td><input type="text" class="texto" name="j_username"></td>
                         </tr>
                         <tr>
-                            <td><span class="texto">&nbsp;&nbsp;&nbsp;Senha</span></th>
-                            <td><input type="password" class="texto" name="j_password"></th>
+                            <td style="text-align-last: right"><span class="texto">Senha</span></td>
+                            <td><input type="password" class="texto" name="j_password"></td>
                         </tr>
                     </table>
                     <br>

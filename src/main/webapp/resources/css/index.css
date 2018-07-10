@@ -53,7 +53,8 @@ body{
 /* Barra do cabeçalho */
 #header{
     height: auto;
-    min-height:1.7em;
+    display: block;
+    overflow: auto;
     background-color:white;
     border-bottom: 4px solid dodgerblue;
     padding: 0.2em;

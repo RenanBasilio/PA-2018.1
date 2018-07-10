@@ -9,10 +9,10 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.postgresql.ds.PGConnectionPoolDataSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  * Tratador de página referente a consultas realizadas na página principal.
@@ -32,7 +32,7 @@ public class IndexHandler implements IFHandler {
 
         Connection conn;
         try {
-            conn = ((PGConnectionPoolDataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
+            conn = ((DataSource)PoolManager.getInstance().getPool("tempoclimanet")).getConnection();
         } catch (SQLException e1) {
             e1.printStackTrace();
             return pagina;
