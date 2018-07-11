@@ -84,7 +84,7 @@ public class PortalController extends HttpServlet {
                 
                 returnObject = Json.createObjectBuilder()
                         .add("status", "failed")
-                        .add("error", ex.getMessage())
+                        .add("error", ex.toString())
                         .build();
             }
             finally {

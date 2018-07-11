@@ -54,7 +54,8 @@ function showResult(result) {
             color = "#62c462";
             break;
         case "failed":
-            text = "Falha ao submeter observação (" + result.error + ")";
+            text = "Falha ao submeter observação.";
+            console.error(result.error);
             color = "#EE5757";
             break;
     }

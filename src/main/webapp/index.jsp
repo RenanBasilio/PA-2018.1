@@ -29,9 +29,11 @@
             <div id="nomeSite">TempoClimaNET</div>
             <div id="DELPOLI">EEL418 / DEL / POLI / UFRJ</div>
         </div>
-        <div id="local" class="white-box label">
+        <div id="local" class="white-box label" style="padding-left: 0">
             &nbsp;&nbsp;&nbsp;&nbsp;
-            Local: <span class="texto">Rio de Janeiro, RJ, Brasil - Posto 9</span>
+            Local: <select class="search-box">
+                <option>Rio de Janeiro, RJ, Brasil - Posto 9</option>
+            </select>
         </div>
         <div id="busca" class="white-box label">
             <form method="GET" action="consulta">

@@ -26,8 +26,8 @@
             <div id="DELPOLI">EEL418 / DEL / POLI / UFRJ</div>
         </div>
         <br><br>
-        <div id="displayResultado" class="white-box center-justify texto" 
-             style="background-color: whitesmoke; visibility: hidden;"> 
+        <div id="displayResultado" class="white-box texto" 
+             style="background-color: whitesmoke; visibility: hidden; text-align: center"> 
             Falhou 
         </div>
         <br>
@@ -47,12 +47,12 @@
                     <table class="center-justify texto" style="width: 95%">
                         <tr>
                             <td style="text-align-last:right">Altura das Ondas</td>
-                            <td><input type="text" class="texto" id="altOndas" style="width: 90%"></td>
+                            <td><input type="number" step="any" class="texto" id="altOndas" style="width: 90%"></td>
                             <td>m</td>
                         </tr>
                         <tr>
                             <td style="text-align-last:right">Temperatura da Água</td>
-                            <td><input type="text" class="texto" id="tempAgua" style="width: 90%"></td>
+                            <td><input type="number" step="any" class="texto" id="tempAgua" style="width: 90%"></td>
                             <td>ºC</td>
                         </tr>
                         <tr>
